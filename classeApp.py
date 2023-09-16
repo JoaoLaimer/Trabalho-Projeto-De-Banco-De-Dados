@@ -68,10 +68,10 @@ class App:
         busca_window = tk.Toplevel(self.master)
         busca_page = BuscaPage(self, busca_window,self.user_id_loggado)
     
-    def exibir_lista_filmes(self, id_user):
+    def exibir_lista_filmes(self, id_user, bool):
         lista_window = tk.Toplevel(self.master)
-        lista_page = MinhasListasPage(self, id_user, lista_window)
-
+        lista_page = MinhasListasPage(self, id_user, bool, lista_window)
+    
     def abrir_pagina_criar_lista(self):
         cria_lista_window = tk.Toplevel(self.master)
         cria_lista_page = CriarListaPage(self,self.user_id_loggado, cria_lista_window)
