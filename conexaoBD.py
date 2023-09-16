@@ -22,3 +22,9 @@ class database:
             consulta_sql = "SELECT * FROM usuario WHERE (nomeuser = %s OR emailuser = %s) AND senhauser = %s"
             self.cursor.execute(consulta_sql, (username, username, password)) 
             return self.cursor.fetchone()
+        
+        def return_user(self, id_user):
+            print(id_user)
+            consulta_sql = "SELECT * FROM usuario WHERE id_user = %s"
+            self.cursor.execute(consulta_sql, (id_user,))
+            return self.cursor.fetchone()

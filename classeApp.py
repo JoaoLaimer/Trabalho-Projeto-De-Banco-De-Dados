@@ -3,6 +3,7 @@ import psycopg2
 from classeCadastroFilmeWindow import CadastroFilmeWindow
 from classeLogin import LoginPage
 from classeRegistro import RegistroPage
+from classeMeuPerfil import MeuPerfilPage
 
 class App:
     def __init__(self, master):
@@ -46,8 +47,8 @@ class App:
     
     def abrir_pagina_perfil(self):
         perfil_window = tk.Toplevel(self.master)
-        perfil_page = ClasseMeuPerfil(perfil_window, self)
-        
+        perfil_page = MeuPerfilPage(self,self.user_id, perfil_window)
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
