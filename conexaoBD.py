@@ -34,7 +34,7 @@ class database:
             if search_type == "Filme":
                 self.table = "filme"
                 search_type = "titulofilme"
-            elif search_type == "Genêro":
+            elif search_type == "Gênero":
                 self.table = "filme"
                 search_type = "generofilme"
             elif search_type == "Pais":
@@ -46,11 +46,47 @@ class database:
             elif search_type == "Diretor":
                 self.table = "diretor"
                 search_type = "nomediretor"
+            elif search_type == "Estudio":
+                self.table = "estudio"
+                search_type = "nome_estudio"
 
             consulta_sql = "SELECT * FROM " + self.table + " WHERE " + search_type + " = %s"
             self.cursor.execute(consulta_sql, (search_value,))
             return self.cursor.fetchone()
-            
+        
+        def return_filme(self, id_type, id_any):
+            if id_type == "Diretor":
+                consulta_sql = "SELECT * FROM filme WHERE id_diretor = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+            if id_type == "Estudio":
+                consulta_sql = "SELECT * FROM filme WHERE id_estudio = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+            else:
+                consulta_sql = "SELECT * FROM filme WHERE id_filme = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+            return self.cursor.fetchall()
+        
+        def return_diretor(self, id_any):
+            consulta_sql = "SELECT * FROM diretor WHERE id_diretor = %s"
+            self.cursor.execute(consulta_sql, (id_any,))
+            return self.cursor.fetchone()
+        def return_estudio(self, id_any):
+            consulta_sql = "SELECT * FROM estudio WHERE id_estudio = %s"
+            self.cursor.execute(consulta_sql, (id_any,))
+            return self.cursor.fetchone()
+        
+        def qntd_filmes(self, id_type, id_any):
+            if id_type == "Diretor":
+                consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_diretor = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+            if id_type == "Estudio":
+                consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_estudio = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+            else:
+                consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_filme = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+
+            return self.cursor.fetchone()
 
         def validate_password(self, id_user, password):
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s AND senhauser = %s"

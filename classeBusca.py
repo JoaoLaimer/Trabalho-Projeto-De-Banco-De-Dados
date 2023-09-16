@@ -11,7 +11,7 @@ class BuscaPage:
         self.search_value = None
         self.search_type = None
 
-        opcoes = ["Ator", "Diretor", "Filme", "Gênero", "Ano","Usuário"]
+        opcoes = ["Filme", "Diretor", "Ator", "Estudio", "Gênero", "Ano", "Pais", "Usuário"]
         self.opcoes_var = tk.StringVar(app)
         self.opcoes_var.set(opcoes[0])
 
