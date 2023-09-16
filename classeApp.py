@@ -31,7 +31,6 @@ class App:
         registro_page = RegistroPage(registro_window)
 
     def ocultar_botao_login_registro(self):
-        # ocultar botão de login e registrar
         if self.login_button is not None and self.signup_button is not None:
             self.login_button.grid_remove()
             self.signup_button.grid_remove()

@@ -36,7 +36,7 @@ class LoginPage:
             db = database()
             user_id = db.validate_login(username, password)[0] 
             if user_id is not None:
-                messagebox.showinfo("Nome do App", "Login bem-sucedido!")
+                #messagebox.showinfo("Nome do App", "Login bem-sucedido!")
                 self.logged_in = True  # Define a variável para True após o login bem-sucedido
                 self.master.withdraw()  # Oculta a janela de login
                 self.app.ocultar_botao_login_registro()  # Oculta o botão de login e registrar
