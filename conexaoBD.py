@@ -43,12 +43,11 @@ class database:
             elif search_type == "Usuário":
                 self.table = "usuario"
                 search_type = "nomeuser"
-            
-            print(search_type, search_value)
 
             consulta_sql = "SELECT * FROM " + self.table + " WHERE " + search_type + " = %s"
             self.cursor.execute(consulta_sql, (search_value,))
             return self.cursor.fetchall()
+            
 
         def validate_password(self, id_user, password):
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s AND senhauser = %s"

@@ -27,6 +27,10 @@ class BuscaPage:
         self.search_value = self.busca_entry.get() 
         self.search_type = self.opcoes_var.get()
         db = database()
-        db.return_search(self.search_type,self.search_value)
+        if db.return_search(self.search_type,self.search_value):
+            print("ok")
+        else:
+            print("nao encontrado")
+            
         db.connection.close()
 
