@@ -1,7 +1,7 @@
 import tkinter as tk
 import psycopg2
 from tkinter import messagebox
-import conexaoBD as database
+from conexaoBD import database
 
 class LoginPage:
     def __init__(self, master, app):
@@ -34,13 +34,14 @@ class LoginPage:
 
         try:
             db = database()
-
-            if db.validate_login(username, password):
+            user_id = db.validate_login(username, password)[0] 
+            if user_id is not None:
                 messagebox.showinfo("Nome do App", "Login bem-sucedido!")
                 self.logged_in = True  # Define a variável para True após o login bem-sucedido
                 self.master.withdraw()  # Oculta a janela de login
-                self.app.exibir_botao_registro_filme()  # Exibe o botão de registro de filme na janela principal
                 self.app.ocultar_botao_login_registro()  # Oculta o botão de login e registrar
+                self.app.set_user_id(db.validate_login(username, password)[0]) 
+                self.app.create_landing_page()
             else:
                 messagebox.showerror("Nome do App", "Credenciais inválidas. Tente novamente.")
 
