@@ -34,7 +34,7 @@ class database:
             if search_type == "Filme":
                 self.table = "filme"
                 search_type = "titulofilme"
-            elif search_type == "Genêro":
+            elif search_type == "Gênero":
                 self.table = "filme"
                 search_type = "generofilme"
             elif search_type == "Pais":
@@ -61,6 +61,9 @@ class database:
             if id_type == "Estudio":
                 consulta_sql = "SELECT * FROM filme WHERE id_estudio = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
+            else:
+                consulta_sql = "SELECT * FROM filme WHERE id_filme = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
             return self.cursor.fetchall()
         
         def return_diretor(self, id_any):
@@ -78,6 +81,9 @@ class database:
                 self.cursor.execute(consulta_sql, (id_any,))
             if id_type == "Estudio":
                 consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_estudio = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+            else:
+                consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_filme = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
 
             return self.cursor.fetchone()
