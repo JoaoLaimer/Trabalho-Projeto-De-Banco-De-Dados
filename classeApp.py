@@ -4,6 +4,7 @@ from classeCadastroFilmeWindow import CadastroFilmeWindow
 from classeLogin import LoginPage
 from classeRegistro import RegistroPage
 from classeMeuPerfil import MeuPerfilPage
+from classeBusca import BuscaPage
 
 class App:
     def __init__(self, master):
@@ -44,10 +45,18 @@ class App:
 
         self.perfil_button = tk.Button(self.master, text="Perfil", command=self.abrir_pagina_perfil)
         self.perfil_button.grid(row=0, column=0, padx=10, pady=10)
-    
+
+        self.busca_button = tk.Button(self.master, text="Busca", command=self.abrir_pagina_busca)
+        self.busca_button.grid(row=0, column=1, padx=10, pady=10)
+
     def abrir_pagina_perfil(self):
         perfil_window = tk.Toplevel(self.master)
         perfil_page = MeuPerfilPage(self,self.user_id, perfil_window)
+    
+    def abrir_pagina_busca(self):
+        busca_window = tk.Toplevel(self.master)
+        busca_page = BuscaPage(self, busca_window)
+
 
 if __name__ == "__main__":
     root = tk.Tk()

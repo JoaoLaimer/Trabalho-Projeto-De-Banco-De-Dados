@@ -28,3 +28,27 @@ class database:
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s"
             self.cursor.execute(consulta_sql, (id_user,))
             return self.cursor.fetchone()
+        
+        def return_search(self, search_type, search_value): 
+            
+            if search_type == "Filme":
+                self.table = "filme"
+                search_type = "titulofilme"
+            elif search_type == "Genêro":
+                self.table = "filme"
+                search_type = "generofilme"
+            elif search_type == "Pais":
+                self.table = "filme"
+                search_type = "paisdeproducao"
+            elif search_type == "Usuário":
+                self.table = "usuario"
+                search_type = "nomeuser"
+            
+            print(search_type, search_value)
+
+            consulta_sql = "SELECT * FROM " + self.table + " WHERE " + search_type + " = %s"
+            self.cursor.execute(consulta_sql, (search_value,))
+            return self.cursor.fetchall()
+
+                 
+                
