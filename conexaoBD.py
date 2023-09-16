@@ -43,6 +43,9 @@ class database:
             elif search_type == "Usuário":
                 self.table = "usuario"
                 search_type = "nomeuser"
+            elif search_type == "Diretor":
+                self.table = "diretor"
+                search_type = "nomediretor"
 
             consulta_sql = "SELECT * FROM " + self.table + " WHERE " + search_type + " = %s"
             self.cursor.execute(consulta_sql, (search_value,))

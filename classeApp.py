@@ -7,6 +7,7 @@ from classeMeuPerfil import MeuPerfilPage
 from classeBusca import BuscaPage
 from classeMinhasListas import MinhasListasPage
 from classeCriarLista import CriarListaPage
+from classeFilme import FilmePage
 
 class App:
     def __init__(self, master):
@@ -74,6 +75,8 @@ class App:
     def abrir_pagina_criar_lista(self):
         cria_lista_window = tk.Toplevel(self.master)
         cria_lista_page = CriarListaPage(self,self.user_id_loggado, cria_lista_window)
+
+    
 
 if __name__ == "__main__":
     root = tk.Tk()

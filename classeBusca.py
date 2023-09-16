@@ -1,7 +1,7 @@
 import tkinter as tk
 from conexaoBD import database
 from classeMeuPerfil import MeuPerfilPage
-
+from classeFilme import FilmePage
 class BuscaPage:
     def __init__(self,master,app,user_id_logged):
         self.master = master
@@ -34,8 +34,15 @@ class BuscaPage:
             if self.search_type == "Usuário":
                 self.app.withdraw()
                 self.master.abrir_pagina_perfil(resultado[0])
+            else:
+                self.app.withdraw()
+                self.abrir_pagina_filme(resultado[0],self.search_type)
         else:
             print("nao encontrado")
-            
         db.connection.close()
+
+    def abrir_pagina_filme(self,id_any,id_type):
+        filme_window = tk.Toplevel(self.app)
+        filme_page = FilmePage(filme_window, id_any, id_type)
+        
 
