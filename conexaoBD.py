@@ -28,3 +28,14 @@ class database:
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s"
             self.cursor.execute(consulta_sql, (id_user,))
             return self.cursor.fetchone()
+        
+        def validate_password(self, id_user, password):
+            consulta_sql = "SELECT * FROM usuario WHERE id_user = %s AND senhauser = %s"
+            self.cursor.execute(consulta_sql, (id_user, password))
+            return self.cursor.fetchone()
+        
+        def update_password (self, id_user, new_password):
+            consulta_sql = "UPDATE usuario SET senhauser = %s WHERE id_user = %s"
+            self.cursor.execute(consulta_sql, (new_password, id_user))
+            self.connection.commit()
+            self.connection.close()
