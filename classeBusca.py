@@ -1,12 +1,13 @@
 import tkinter as tk
 from conexaoBD import database
+from classeMeuPerfil import MeuPerfilPage
 
 class BuscaPage:
-    def __init__(self,master,app):
+    def __init__(self,master,app,user_id_logged):
         self.master = master
         self.app = app
         self.app.title("Busca")
-
+        self.user_id_logged = user_id_logged
         self.search_value = None
         self.search_type = None
 
@@ -27,8 +28,12 @@ class BuscaPage:
         self.search_value = self.busca_entry.get() 
         self.search_type = self.opcoes_var.get()
         db = database()
-        if db.return_search(self.search_type,self.search_value):
+        resultado = db.return_search(self.search_type,self.search_value)
+        if resultado:
             print("ok")
+            if self.search_type == "Usuário":
+                self.app.withdraw()
+                self.master.abrir_pagina_perfil(resultado[0])
         else:
             print("nao encontrado")
             

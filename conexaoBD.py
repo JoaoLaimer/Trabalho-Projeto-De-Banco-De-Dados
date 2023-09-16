@@ -46,7 +46,7 @@ class database:
 
             consulta_sql = "SELECT * FROM " + self.table + " WHERE " + search_type + " = %s"
             self.cursor.execute(consulta_sql, (search_value,))
-            return self.cursor.fetchall()
+            return self.cursor.fetchone()
             
 
         def validate_password(self, id_user, password):

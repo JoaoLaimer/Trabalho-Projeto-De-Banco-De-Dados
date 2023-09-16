@@ -40,7 +40,7 @@ class LoginPage:
                 self.logged_in = True  # Define a variável para True após o login bem-sucedido
                 self.master.withdraw()  # Oculta a janela de login
                 self.app.ocultar_botao_login_registro()  # Oculta o botão de login e registrar
-                self.app.set_user_id(db.validate_login(username, password)[0]) 
+                self.app.set_user_id_loggado(db.validate_login(username, password)[0]) 
                 self.app.create_landing_page()
             else:
                 messagebox.showerror("Nome do App", "Credenciais inválidas. Tente novamente.")
