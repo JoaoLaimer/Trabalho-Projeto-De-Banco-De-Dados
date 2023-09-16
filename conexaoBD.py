@@ -50,15 +50,24 @@ class database:
             self.cursor.execute(consulta_sql, (search_value,))
             return self.cursor.fetchall()
 
-                 
-                
         def validate_password(self, id_user, password):
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s AND senhauser = %s"
             self.cursor.execute(consulta_sql, (id_user, password))
             return self.cursor.fetchone()
         
-        def update_password (self, id_user, new_password):
+        def update_password(self, id_user, new_password):
             consulta_sql = "UPDATE usuario SET senhauser = %s WHERE id_user = %s"
             self.cursor.execute(consulta_sql, (new_password, id_user))
+            self.connection.commit()
+            self.connection.close()
+
+        def check_total_user_lists(self, id_user):
+            consulta_sql = "SELECT COUNT(*) FROM lista WHERE id_user = %s"
+            self.cursor.execute(consulta_sql, (id_user,))
+            return self.cursor.fetchone()
+        
+        def create_new_list(self, id_user, list_name):
+            consulta_sql = "INSERT INTO lista(id_user, nomelista) VALUES (%s, %s)"
+            self.cursor.execute(consulta_sql, (id_user, list_name))
             self.connection.commit()
             self.connection.close()
