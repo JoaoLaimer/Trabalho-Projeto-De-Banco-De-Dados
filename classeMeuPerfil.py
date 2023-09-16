@@ -4,14 +4,13 @@ from conexaoBD import database
 
 
 class MeuPerfilPage:
-    def __init__(self, master,id_user, id_user_logged, app):
+    def __init__(self, master, id_user, id_user_logged, app):
         self.master = master
         self.id_user_logged = id_user_logged
         self.id_user = id_user
         self.app = app  
         self.app.title("Meu Perfil")
         self.change_password_window = None
-        
         db = database()
         self.user = db.return_user(self.id_user)
 
@@ -26,8 +25,8 @@ class MeuPerfilPage:
 
         user_info_label_2 = tk.Label(self.app, text=f"País {self.country} \t Email {self.email}")
         user_info_label_2.grid(row=1, column=0, padx=10, pady=10)
-
-        user_my_list = tk.Button(self.app, text="Minhas Listas", command=self.master.abrir_pagina_minhas_listas)
+        
+        user_my_list = tk.Button(self.app, text="Lista de Filmes", command=lambda: self.master.exibir_lista_filmes(id_user))
         user_my_list.grid(row=2, column=0, padx=10, pady=10)
         if id_user_logged == id_user:
             user_alter_password = tk.Button(self.app, text="Alternar Senha", command=self.change_password).pack()
