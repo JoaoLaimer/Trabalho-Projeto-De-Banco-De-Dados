@@ -21,8 +21,14 @@ class MeuPerfilPage:
         self.country = self.user[7]
         self.email = self.user[4]
 
-        user_info_label = tk.Label(self.app, text=f"Nome do Usuário: {self.name} \n Seguidores:{self.followers} \tSeguindo: {self.following} \n País {self.country} \nEmail {self.email}").pack()
-        user_my_list = tk.Button(self.app, text="Minhas Listas").pack()
+        user_info_label_1 = tk.Label(self.app, text=f"Nome do Usuário: {self.name} \t {self.followers} Seguidores  {self.following} Seguindo")
+        user_info_label_1.grid(row=0, column=0, padx=10, pady=10)
+
+        user_info_label_2 = tk.Label(self.app, text=f"País {self.country} \t Email {self.email}")
+        user_info_label_2.grid(row=1, column=0, padx=10, pady=10)
+
+        user_my_list = tk.Button(self.app, text="Minhas Listas", command=self.master.abrir_pagina_minhas_listas)
+        user_my_list.grid(row=2, column=0, padx=10, pady=10)
         if id_user_logged == id_user:
             user_alter_password = tk.Button(self.app, text="Alternar Senha", command=self.change_password).pack()
 
@@ -32,12 +38,12 @@ class MeuPerfilPage:
         self.change_password_window.title("Alterar Senha")
         
         password_label = tk.Label(self.change_password_window , text="Senha atual: ")
-        password_label.pack()
+        password_label.grid(row=0, column=0, padx=10, pady=10)
         self.password_entry = tk.Entry(self.change_password_window , width=30, show="*")
         self.password_entry.pack()
 
         new_password_label = tk.Label(self.change_password_window , text="Nova senha: ")
-        new_password_label.pack()
+        new_password_label.grid(row=1, column=0, padx=10, pady=10)
         self.new_password_entry = tk.Entry(self.change_password_window , width=30, show="*")
         self.new_password_entry.pack()
 
