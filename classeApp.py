@@ -54,7 +54,7 @@ class App:
         self.busca_button = tk.Button(self.master, text="Busca", command=self.abrir_pagina_busca)
         self.busca_button.grid(row=0, column=1, padx=10, pady=10)
 
-        self.minha_lista_button = tk.Button(self.master, text="Minhas Listas", command=self.abrir_pagina_minhas_listas)
+        self.minha_lista_button = tk.Button(self.master, text="Minhas Listas", command=lambda :self.exibir_lista_filmes(self.user_id_loggado))
         self.minha_lista_button.grid(row=0, column=2, padx=10, pady=10)
 
         self.cria_lista_button = tk.Button(self.master, text="Criar Lista", command=self.abrir_pagina_criar_lista)
@@ -68,15 +68,13 @@ class App:
         busca_window = tk.Toplevel(self.master)
         busca_page = BuscaPage(self, busca_window,self.user_id_loggado)
     
-    def abrir_pagina_minhas_listas(self):
+    def exibir_lista_filmes(self, id_user):
         lista_window = tk.Toplevel(self.master)
-        lista_page = MinhasListasPage(self,self.user_id_loggado, lista_window)
+        lista_page = MinhasListasPage(self, id_user, lista_window)
 
     def abrir_pagina_criar_lista(self):
         cria_lista_window = tk.Toplevel(self.master)
         cria_lista_page = CriarListaPage(self,self.user_id_loggado, cria_lista_window)
-
-    
 
 if __name__ == "__main__":
     root = tk.Tk()
