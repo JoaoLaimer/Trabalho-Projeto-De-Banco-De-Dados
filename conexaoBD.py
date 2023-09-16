@@ -70,3 +70,9 @@ class database:
             self.cursor.execute(consulta_sql, (id_user, list_name))
             self.connection.commit()
             self.connection.close()
+
+        def return_user_lists(self, id_user):
+            consulta_sql = "SELECT * FROM lista WHERE id_user = %s"
+            self.cursor.execute(consulta_sql, (id_user,))
+            return self.cursor.fetchall()
+        
