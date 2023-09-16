@@ -2,6 +2,8 @@ import tkinter as tk
 import psycopg2
 from tkinter import messagebox
 from classeCadastroFilmeWindow import CadastroFilmeWindow
+from conexaoBD import database
+
 class RegistroPage:
     def __init__(self, master):
         self.master = master
@@ -44,22 +46,10 @@ class RegistroPage:
         senhauser = self.senhauser_entry.get()
         telefoneuser = self.telefoneuser_entry.get()
         paisuser = self.paisuser_entry.get()
-
+        
         try:
-            connection = psycopg2.connect(
-                dbname="trabalhoPDB",
-                user="postgres",
-                password="271202",
-                host="26.29.242.113",
-                port="5432"
-            )
-            cursor = connection.cursor()
-
-            consulta_sql = "INSERT INTO usuario(nomeuser, emailuser, senhauser, telefoneuser, paisuser) VALUES (%s, %s, %s, %s, %s)"
-            cursor.execute(consulta_sql, (nomeuser, emailuser, senhauser, telefoneuser, paisuser))
-
-            connection.commit()
-            connection.close()
+            db = database()
+            db.insert_newUser(nomeuser, emailuser, senhauser, telefoneuser, paisuser)
 
             self.nomeuser_entry.delete(0, tk.END)
             self.emailuser_entry.delete(0, tk.END)
@@ -71,12 +61,6 @@ class RegistroPage:
         except Exception as e:
             messagebox.showerror("Nome do App", "Erro ao registrar usuário: " + str(e))
 
-
-
-
-    def abrir_pagina_registro_filme(self):
-        registro_filme_window = tk.Toplevel(self.master)
-        registro_filme_page = CadastroFilmeWindow(registro_filme_window)
 
 
 

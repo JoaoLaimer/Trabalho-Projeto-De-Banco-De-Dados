@@ -12,16 +12,16 @@ class App:
         self.botao_login_registro = None
 
         # botao pra tela de login
-        open_login_signup_button = tk.Button(master, text="Login", command=self.abrir_pagina_login)
-        open_login_signup_button.pack()
+        self.login_button = tk.Button(master, text="Login", command=self.abrir_pagina_login)
+        self.login_button.pack()
         
-        open_registro_button = tk.Button(master, text="Sign Up", command=self.abrir_pagina_registro)
-        open_registro_button.pack()
+        self.signup_button = tk.Button(master, text="Sign Up", command=self.abrir_pagina_registro)
+        self.signup_button.pack()
 
     def abrir_pagina_login(self):
         login_window = tk.Toplevel(self.master)
         login_page = LoginPage(login_window, self)
-        self.botao_login_registro = login_page.botao_login_registro 
+        #self.botao_login_registro = login_page.botao_login_registro 
         
     def abrir_pagina_registro(self):
         registro_window = tk.Toplevel(self.master)
@@ -32,6 +32,11 @@ class App:
         if self.botao_registro_filme is None:
             self.botao_registro_filme = tk.Button(self.master, text="Registrar Filme", command=self.abrir_pagina_registro_filme)
             self.botao_registro_filme.pack()
+    def ocultar_botao_login_registro(self):
+        # ocultar botão de login e registrar
+        if self.login_button is not None and self.signup_button is not None:
+            self.login_button.pack_forget()
+            self.signup_button.pack_forget()
 
     def abrir_pagina_registro_filme(self):
         registro_filme_window = tk.Toplevel(self.master)
