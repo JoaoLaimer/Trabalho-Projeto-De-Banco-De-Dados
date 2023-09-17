@@ -56,7 +56,7 @@ class App:
         self.busca_button = tk.Button(self.master, text="Busca", command=self.abrir_pagina_busca)
         self.busca_button.grid(row=0, column=1, padx=10, pady=10)
 
-        self.minha_lista_button = tk.Button(self.master, text="Minhas Listas", command=lambda :self.exibir_lista_filmes(self.user_id_loggado))
+        self.minha_lista_button = tk.Button(self.master, text="Minhas Listas", command=lambda :self.exibir_lista_filmes(self.user_id_loggado, True))
         self.minha_lista_button.grid(row=0, column=2, padx=10, pady=10)
 
         self.cria_lista_button = tk.Button(self.master, text="Criar Lista", command=self.abrir_pagina_criar_lista)

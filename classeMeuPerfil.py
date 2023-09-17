@@ -20,18 +20,12 @@ class MeuPerfilPage:
         self.country = self.user[7]
         self.email = self.user[4]
 
-        
-
         user_info_label_1 = tk.Label(self.app, text=f"Nome do Usuário: {self.name} \t {self.followers} Seguidores  {self.following} Seguindo")
         user_info_label_1.grid(row=0, column=0, padx=10, pady=10)
 
         user_info_label_2 = tk.Label(self.app, text=f"País {self.country} \t Email {self.email}")
         user_info_label_2.grid(row=1, column=0, padx=10, pady=10)
 
-        
-        ###
-
-        
         if id_user_logged == id_user:
             user_my_list = tk.Button(self.app, text="Lista de Filmes", command=lambda: self.master.exibir_lista_filmes(id_user, True))
             user_my_list.grid(row=2, column=0, padx=10, pady=10)
