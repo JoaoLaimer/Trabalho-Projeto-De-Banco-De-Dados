@@ -40,16 +40,11 @@ class MinhasListasPage:
             self.list_id = lists[i][3]
             list_label = [None for _ in range(len(lists))]
 
-            
             if self.bool:
-                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, bool))
-                list_label[i].grid(row = i, column = 0, padx = 10, pady = 10)
-                """self.remove_button = customtkinter.CTkButton(self.app, text="Remover", command=lambda list_id = self.list_id: self.remove_movie(list_id))
-                self.remove_button.grid(row=i, column=1, padx=10, pady=10)
-                self.delete_list_button = customtkinter.CTkButton(self.app, text="Apagar lista", command=lambda list_id = self.list_id: self.delete_list(list_id))
-                self.delete_list_button.grid(row=i, column=2, padx=10, pady=10)"""
+                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, True))
+                list_label[i].grid(row = i+2, column = 0, padx = 10, pady = 10)
             else:
-                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id))
+                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, False))
                 list_label[i].grid(row = i, column = 0, padx = 10, pady = 10)
                 if not db.check_like(self.list_id, self.id_user):
                     self.like_button[i] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = self.list_id, row = i: self.like_event(list_id,row))
@@ -79,18 +74,30 @@ class MinhasListasPage:
         movie_window = tk.Toplevel(self.app)
         movie_window.title("Filmes da Lista")
 
-        print(movies)
-        """for i in range(len(movies)):
+        list_name = tk.Label(movie_window, text=f"lista: {db.get_list_name(id_list)[0]}")
+        list_name.grid(row=0, column=0, padx=10, pady=10)
+        delete_movie_button = [None for _ in range(len(movies))]
+        for i in range(len(movies)):
             movie_id = movies[i][0]
             movie_title = db.get_movie_name(movie_id) 
             movie_label = tk.Label(movie_window, text=movie_title)
-            movie_label.grid(row = i, column = 0, padx = 10, pady = 10)"""
-
-        delete_list_button = customtkinter.CTkButton(movie_window, text="Apagar lista", command=lambda list_id = id_list: self.delete_list(list_id))
-        delete_list_button.grid(row=1, column=2, padx=10, pady=10)
+            movie_label.grid(row = i+1, column = 0, padx = 10, pady = 10)
+            if bool:
+                delete_movie_button[i] = customtkinter.CTkButton(movie_window, text="X", command=lambda id_movie = movie_id, list_id = id_list, row = i: self.delete_movie(id_movie, list_id, row))
+                delete_movie_button[i].grid(row=i+1, column=1, padx=10, pady=10)
+        if bool:      
+            delete_list_button = customtkinter.CTkButton(movie_window, text="Apagar lista", command=lambda list_id = id_list: self.delete_list(list_id))
+            delete_list_button.grid(row=0, column=1, padx=10, pady=10)
 
     def delete_list(self, id_list):
         db = database()
         db.delete_list(id_list)
         messagebox.showinfo("Sucesso", "Lista apagada com sucesso!")
+        self.app.destroy()
+
+    def delete_movie(self, id_movie, id_list, pos):
+        db = database()
+        db.delete_movie(id_movie, id_list)
+        self.delete_movie_button[pos].grid_remove()
+        messagebox.showinfo("Sucesso", "Filme apagado com sucesso!")
         self.app.destroy()

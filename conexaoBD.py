@@ -24,13 +24,11 @@ class database:
             return self.cursor.fetchone()
         
         def return_user(self, id_user):
-            #print(id_user)
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s"
             self.cursor.execute(consulta_sql, (id_user,))
             return self.cursor.fetchone()
         
         def return_search(self, search_type, search_value): 
-            
             if search_type == "Filme":
                 self.table = "filme"
                 search_type = "titulofilme"
@@ -154,6 +152,11 @@ class database:
             self.cursor.execute(consulta_sql, (id_movie,))
             return self.cursor.fetchone()
         
+        def get_list_name(self, id_list):
+            consulta_sql = "SELECT nomelista FROM lista WHERE id_lista = %s"
+            self.cursor.execute(consulta_sql, (id_list,))
+            return self.cursor.fetchone()
+        
         def get_user_id(self, username):
             consulta_sql = "SELECT id_user FROM usuario WHERE nomeuser = %s"
             self.cursor.execute(consulta_sql, (username,))
@@ -218,3 +221,9 @@ class database:
                 self.cursor.execute(consulta_sql, (id_list,))
                 self.connection.commit()
                 self.connection.close()
+
+        def delete_movie(self, id_movie, id_list):
+            consulta_sql = ("DELETE FROM pertence_lista WHERE id_filme = %s AND id_lista = %s")
+            self.cursor.execute(consulta_sql, (id_movie, id_list))
+            self.connection.commit()
+            self.connection.close()
