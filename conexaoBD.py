@@ -227,3 +227,11 @@ class database:
                 self.connection.close()
 
 
+        def delete_list(self, id_list):
+            consula_sql = "SELECT * FROM lista WHERE id_lista = %s"
+            self.cursor.execute(consula_sql, (id_list,))
+            if self.cursor.fetchone() is not None:
+                consulta_sql = "DELETE FROM lista WHERE id_lista = %s "
+                self.cursor.execute(consulta_sql, (id_list,))
+                self.connection.commit()
+                self.connection.close()

@@ -26,4 +26,6 @@ class CriarListaPage:
         db = database()
         list_name = self.list_name_entry.get()
         db.create_new_list(self.id_user_logged, list_name)
+        messagebox.showinfo("Sucesso", "Lista criada com sucesso!")
+        self.app.destroy()
 
