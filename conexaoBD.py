@@ -24,7 +24,7 @@ class database:
             return self.cursor.fetchone()
         
         def return_user(self, id_user):
-            print(id_user)
+            #print(id_user)
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s"
             self.cursor.execute(consulta_sql, (id_user,))
             return self.cursor.fetchone()
@@ -52,19 +52,22 @@ class database:
 
             consulta_sql = "SELECT * FROM " + self.table + " WHERE " + search_type + " = %s"
             self.cursor.execute(consulta_sql, (search_value,))
-            return self.cursor.fetchone()
+            return self.cursor.fetchall()
         
         def return_filme(self, id_type, id_any):
             if id_type == "Diretor":
                 consulta_sql = "SELECT * FROM filme WHERE id_diretor = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
+                return self.cursor.fetchall()
             if id_type == "Estudio":
                 consulta_sql = "SELECT * FROM filme WHERE id_estudio = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
+                return self.cursor.fetchall()
             else:
                 consulta_sql = "SELECT * FROM filme WHERE id_filme = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
-            return self.cursor.fetchall()
+                return self.cursor.fetchall()
+
         
         def return_diretor(self, id_any):
             consulta_sql = "SELECT * FROM diretor WHERE id_diretor = %s"
@@ -79,14 +82,20 @@ class database:
             if id_type == "Diretor":
                 consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_diretor = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
+                return self.cursor.fetchone()
             if id_type == "Estudio":
                 consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_estudio = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
-            else:
-                consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_filme = %s"
+                return self.cursor.fetchone()
+            if id_type == "Gênero":
+                consulta_sql = "SELECT COUNT(*) FROM filme WHERE generofilme = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
-
-            return self.cursor.fetchone()
+                return self.cursor.fetchone()
+            else:
+                consulta_sql = "SELECT COUNT(*) FROM filme WHERE titulofilme = %s OR generofilme = %s OR paisdeproducao = %s"
+                self.cursor.execute(consulta_sql, (id_any,id_any,id_any,))
+                return self.cursor.fetchone()
+            
 
         def validate_password(self, id_user, password):
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s AND senhauser = %s"
@@ -130,3 +139,20 @@ class database:
             self.cursor.execute(consulta_sql, (username,))
             return self.cursor.fetchone()
         
+        def insert_movie(self, id_list, id_movie):
+            consulta_sql = "INSERT INTO pertence_lista(id_lista, id_filme) VALUES (%s, %s)"
+            self.cursor.execute(consulta_sql, (id_list, id_movie))
+            self.connection.commit()
+            self.connection.close()
+
+        def like_list(self, id_user, id_list):
+            consulta_sql = "INSERT INTO curtir_lista(id_user, id_lista) VALUES (%s, %s)"
+            self.cursor.execute(consulta_sql, (id_user, id_list))
+            self.connection.commit()
+            self.connection.close()
+
+        def unlike_list(self, id_user, id_list):
+            consulta_sql = "DELETE FROM curtir_lista WHERE id_user = %s AND id_lista = %s"
+            self.cursor.execute(consulta_sql, (id_user, id_list))
+            self.connection.commit()
+            self.connection.close()

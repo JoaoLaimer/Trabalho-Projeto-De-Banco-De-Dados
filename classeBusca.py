@@ -50,14 +50,23 @@ class BuscaPage:
             print("ok")
             if self.search_type == "Usuário":
                 self.app.withdraw()
-                self.master.abrir_pagina_perfil(resultado[0])
+                self.master.abrir_pagina_perfil(resultado[0][0])
             else:
                 self.app.withdraw()
-                self.abrir_pagina_filme(resultado[0], self.search_type)
+
+
+                self.abrir_pagina_filme(resultado[0][0],self.search_type)
+
         else:
             messagebox.showerror("Nome do App", "Não encontrado")
         db.connection.close()
 
     def abrir_pagina_filme(self, id_any, id_type):
         filme_window = tk.Toplevel(self.app)
-        filme_page = FilmePage(filme_window, id_any, id_type)
+
+        filme_page = FilmePage(filme_window, self ,id_any, id_type)
+
+    def get_search_value(self):
+        return self.search_value
+        
+

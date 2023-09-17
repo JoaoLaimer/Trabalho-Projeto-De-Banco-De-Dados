@@ -45,7 +45,8 @@ class MinhasListasPage:
             else:
                 var = tk.IntVar()
                 checkbox_vars.append(var)
-                checkbox = customtkinter.CTkButton(self.app, text="Curtir Lista", variable=var, command=lambda: self.checkbox_event(list_id, var.get()))
+
+                checkbox = tk.Checkbutton(self.app, text="Curtir Lista", variable=var, command=lambda: self.checkbox_event(list_id, var.get()))
                 checkbox.grid(row=rowIncrement, column=1, padx=10, pady=10)
             rowIncrement += 1
 

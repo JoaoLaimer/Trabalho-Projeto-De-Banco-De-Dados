@@ -24,6 +24,8 @@ class App(customtkinter.CTk):
         self.master = master
         self.master.geometry("320x400")
         self.master.title("Nome do App")
+        self.master.configure(bg="lightgray")
+        self.button_style = ("Arial", 28)
         self.botao_registro_filme = None  # none pq ele nao aparece
         self.botao_login_registro = None
 
@@ -33,6 +35,7 @@ class App(customtkinter.CTk):
         
         self.signup_button = customtkinter.CTkButton(master, text="Sign Up", command=self.abrir_pagina_registro)
         self.signup_button.grid(row=0, column=1, padx=10, pady=10)
+
 
         self.user_id_loggado = None
         
