@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from conexaoBD import database
+import customtkinter
 
 class MinhasListasPage:
     def __init__(self, master, id_user, bool, app):
@@ -35,7 +36,7 @@ class MinhasListasPage:
         for list in lists:
             list_name = list[1]
             list_id = list[3]
-            list_label = tk.Button(self.app, text=f"Nome: {list_name}", command=lambda: self.show_movies_in_list(list_id))
+            list_label = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda: self.show_movies_in_list(list_id))
             list_label.grid(row = rowIncrement, column = 0, padx = 10, pady = 10)
 
             if self.bool:
@@ -44,6 +45,7 @@ class MinhasListasPage:
             else:
                 var = tk.IntVar()
                 checkbox_vars.append(var)
+
                 checkbox = tk.Checkbutton(self.app, text="Curtir Lista", variable=var, command=lambda: self.checkbox_event(list_id, var.get()))
                 checkbox.grid(row=rowIncrement, column=1, padx=10, pady=10)
             rowIncrement += 1
