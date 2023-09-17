@@ -162,6 +162,10 @@ class database:
             self.cursor.execute(consulta_sql, (id_user,))
             return self.cursor.fetchall()
         
+        def check_like(self, id_list, id_user):
+            consulta_sql = "SELECT * FROM curtir_lista WHERE id_user = %s AND id_lista = %s"
+            self.cursor.execute(consulta_sql, (id_user, id_list))
+            return self.cursor.fetchone()
         
         def follow_user(self, id_user, id_followed):
                 consulta_sql = "INSERT INTO seguir(id_user_seguidor, id_user_seguido) VALUES (%s, %s)"
