@@ -124,6 +124,14 @@ class MeuPerfilPage:
             user_my_list = customtkinter.CTkButton(self.app, text="Lista de Filmes", command=lambda: self.master.exibir_lista_filmes(id_user, False))
             user_my_list.grid(row=6, column=0, padx=10, pady=10)
 
+            if db.check_follow(self.id_user_logged, self.id_user):
+                self.user_follow = customtkinter.CTkButton(self.app, text="Deixar de Seguir", command=lambda: self.unfollow_user(id_user))
+                self.user_follow.grid(row=6, column=1, padx=10, pady=10)
+            else:
+                self.user_follow = customtkinter.CTkButton(self.app, text="Seguir", command=lambda: self.follow_user(id_user))
+                self.user_follow.grid(row=6, column=1, padx=10, pady=10)
+                
+
     def change_password(self):
         self.change_password_window = tk.Toplevel(self.app)
         self.change_password_window.geometry("300x150")
@@ -158,3 +166,23 @@ class MeuPerfilPage:
                 self.change_password_window.destroy()
             else:
                 tk.messagebox.showerror("Nome do App", "Credenciais inválidas. Tente novamente.")
+            db.connection.close()
+
+    def follow_user(self, id_user):
+        db = database()
+        db.follow_user(self.id_user_logged, id_user)
+        tk.messagebox.showinfo("Nome do App", "Usuário seguido com sucesso.")
+        self.user_follow.grid_remove()
+        self.user_follow = customtkinter.CTkButton(self.app, text="Deixar de Seguir", command=lambda: self.unfollow_user(id_user))
+        self.user_follow.grid(row=6, column=1, padx=10, pady=10)
+        db.connection.close()
+    
+    def unfollow_user(self, id_user):
+        db = database()
+        db.unfollow_user(self.id_user_logged, id_user)
+        tk.messagebox.showinfo("Nome do App", "Usuário deixado de seguir com sucesso.")
+        self.user_follow.grid_remove()
+        self.user_follow = customtkinter.CTkButton(self.app, text="Seguir", command=lambda: self.follow_user(id_user))
+        self.user_follow.grid(row=6, column=1, padx=10, pady=10)
+        db.connection.close()
+

@@ -101,4 +101,5 @@ class App(customtkinter.CTk):
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
+    root.protocol("WM_DELETE_WINDOW", root.quit)
     root.mainloop()

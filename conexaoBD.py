@@ -156,3 +156,27 @@ class database:
             self.cursor.execute(consulta_sql, (id_user, id_list))
             self.connection.commit()
             self.connection.close()
+        
+        def follow_user(self, id_user, id_followed):
+                consulta_sql = "INSERT INTO seguir(id_user_seguidor, id_user_seguido) VALUES (%s, %s)"
+                self.cursor.execute(consulta_sql, (id_user, id_followed))
+                self.connection.commit()
+                self.connection.close()
+
+        def unfollow_user(self, id_user, id_followed):
+            consulta_sql = "DELETE FROM seguir WHERE id_user_seguidor = %s AND id_user_seguido = %s"
+            self.cursor.execute(consulta_sql, (id_user, id_followed))
+            self.connection.commit()
+            self.connection.close()
+
+        def check_follow(self, id_user, id_followed):
+            consulta_sql = "SELECT * FROM seguir WHERE id_user_seguidor = %s AND id_user_seguido = %s"
+            self.cursor.execute(consulta_sql, (id_user, id_followed))
+            return self.cursor.fetchone()
+        
+        def add_movie_to_list(self, id_filme, id_list):
+            consulta_sql = "INSERT INTO pertence_lista(id_filme, id_lista) VALUES (%s, %s)"
+            self.cursor.execute(consulta_sql, (id_filme, id_list))
+            self.connection.commit()
+            self.connection.close()
+     
