@@ -10,7 +10,8 @@ class MinhasListasPage:
         self.bool = bool
         self.app = app  
         self.app.title("Nome do App")
-        
+        self.like_button = None
+        self.unlike_button = None
         db = database()
         self.user = db.return_user(self.id_user)
         self.name = self.user[3]
@@ -48,14 +49,44 @@ class MinhasListasPage:
                 list_menu = tk.OptionMenu(self.app, self.options_var, *options_logged_profile)
                 list_menu.grid(row=rowIncrement, column=1, padx=10, pady=10)
             else:
-                var = tk.IntVar()
-                checkbox_vars.append(var)
-                checkbox = tk.Checkbutton(self.app, text="Curtir Lista", variable=var, command=lambda list_id = list_id, var = var: self.checkbox_event(list_id, var.get()))
-                checkbox.grid(row=rowIncrement, column=1, padx=10, pady=10)
-
+                if not db.check_like(list_id, self.id_user):
+                    like_button = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = list_id: self.like_event(list_id))
+                    like_button.grid(row=rowIncrement, column=2, padx=10, pady=10)
+                else:
+                    unlike_button = customtkinter.CTkButton(self.app, text="Descurtir", command=lambda list_id = list_id: self.unlike_event(list_id))
+                    unlike_button.grid(row=rowIncrement, column=2, padx=10, pady=10)
             rowIncrement += 1
 
-    def show_movies_in_list(self, id_list):
+    def like_event(self, id_list):
+        db = database()
+        db.like_list(id_list, self.id_user)
+        self.update_like_button(id_list, liked=True)
+
+    def unlike_event(self, id_list):
+        db = database()
+        db.unlike_list(id_list, self.id_user)
+        self.update_like_button(id_list, liked=False)
+
+    def update_like_button(self, id_list, liked):
+        if liked:
+            button_text = "Descurtir"
+            command = lambda id_list=id_list: self.unlike_event(id_list)
+        else:
+            button_text = "Curtir"
+            command = lambda id_list=id_list: self.like_event(id_list)
+
+        if not self.like_button:
+            self.like_button = customtkinter.CTkButton(self.app, text=button_text, command=command)
+        else:
+            self.like_button.configure(text=button_text, command=command)
+
+        self.like_button.configure(text=button_text, command=command)
+
+        # Force a redraw of the button
+        self.like_button.update_idletasks()
+
+            
+    """def show_movies_in_list(self, id_list):
         db = database()
         movies = db.return_movies_in_list(id_list)
 
@@ -67,17 +98,4 @@ class MinhasListasPage:
             movie_name = db.get_movie_name(movie_id) 
             movie_label = tk.Label(movie_window, text=movie_name)
             movie_label.grid(row = rowIncrement, column = 0, padx = 10, pady = 10)
-            rowIncrement += 1
-
-    def checkbox_event(self, id_list, value):
-        print(f"ID LIST: {id_list} {value}")
-        db = database()
-        if value == 1:
-            db.like_list(id_list, self.id_user)
-        else:
-            db.unlike_list(id_list, self.id_user)
-
-    """def restore_checkbox_states(self):
-        for list_id, checkbox_var in self.checkbox_states.items():
-            var_state = 1 if list_id in liked_lists else 0
-            checkbox_var.set(var_state)"""
+            rowIncrement += 1"""
