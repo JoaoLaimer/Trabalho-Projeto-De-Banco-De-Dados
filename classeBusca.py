@@ -13,14 +13,14 @@ customtkinter.set_default_color_theme("green")
 class BuscaPage:
     def __init__(self, master, app, user_id_logged):
         self.master = master
-        self.app = app
         self.master.geometry("320x400")
+        self.app = app
         self.app.title("Busca")
         self.user_id_logged = user_id_logged
         self.search_value = None
         self.search_type = None
 
-        opcoes = ["Ator", "Diretor", "Filme", "Gênero", "Ano", "Usuário"]
+        opcoes = ["Filme", "Usuário", "Ator", "Diretor", "Gênero", "Ano"]
 
         self.opcoes_var = ctk.StringVar(value=opcoes[0])
         

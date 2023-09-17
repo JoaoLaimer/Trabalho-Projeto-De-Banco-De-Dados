@@ -3,13 +3,15 @@ from tkinter import messagebox
 from conexaoBD import database
 import customtkinter
 from classeAdicionarFilme import AdicionarFilmePage
+from tkinter import messagebox
 
 class MinhasListasPage:
     def __init__(self, master, id_user, bool, app):
         self.master = master
+        self.master.geometry("320x400")
         self.id_user = id_user
         self.bool = bool
-        self.app = app  
+        self.app = app 
         self.app.title("Nome do App")
         self.like_button = None
         self.unlike_button = None
@@ -28,64 +30,95 @@ class MinhasListasPage:
 
     def list_lists(self):
         options_logged_profile = ["Adicionar filme", "Excluir filme", "Apagar lista"]
-        self.options_var = tk.StringVar(self.app)
-        self.options_var.set(options_logged_profile[0])
+        self.options_var = customtkinter.StringVar(value=options_logged_profile[0])
+        
+        option_menu = customtkinter.CTkOptionMenu(self.app,
+                                        values=options_logged_profile,
+                                        variable=self.options_var,
+                                        width=100,
+                                        corner_radius=5,
+                                        text_color=("black", "white"),
+                                        dropdown_text_color=("black", "white"),
+                                        font=("Arial", 12))
+        option_menu.grid(row=0, column=2, padx=10, pady=10)
         checkbox_vars = []
         rowIncrement = 2
         db = database()
         lists = db.return_user_lists(self.id_user)
         liked_lists = db.return_liked_lists(self.id_user)
 
-        for likes in liked_lists:
-            for item in likes:
-                print(item)
+        #print(lists)
+        #print(len(lists))
+        #for likes in liked_lists:
+            #for item in likes:
+                #print(item)
             
-        for list in lists:
-            list_name = list[1]
-            list_id = list[3]
-            list_label = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda: self.show_movies_in_list(list_id))
-            list_label.grid(row = rowIncrement, column = 0, padx = 10, pady = 10)
-            
-            if self.bool:
-                list_menu= tk.OptionMenu(self.app, self.options_var, *options_logged_profile)
-                list_menu.grid(row=rowIncrement, column=1, padx=10, pady=10)
-            else:
-                if not db.check_like(list_id, self.id_user):
-                    like_button = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = list_id: self.like_event(list_id))
-                    like_button.grid(row=rowIncrement, column=2, padx=10, pady=10)
-                else:
-                    unlike_button = customtkinter.CTkButton(self.app, text="Descurtir", command=lambda list_id = list_id: self.unlike_event(list_id))
-                    unlike_button.grid(row=rowIncrement, column=2, padx=10, pady=10)
-            rowIncrement += 1
+        self.like_button = [None for _ in range(len(lists))]
+        #self.unlike_button = [None for _ in range(len(lists))]
+        for i in range(len(lists)):
+            list_name = lists[i][1]
+            self.list_id = lists[i][3]
+            list_label = [None for _ in range(len(lists))]
 
-    def like_event(self, id_list):
+            list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda: self.show_movies_in_list(self.list_id))
+            list_label[i].grid(row = i, column = 0, padx = 10, pady = 10)
+                
+            if self.bool:
+                # list_menu = tk.OptionMenu(self.app, self.options_var, *options_logged_profile)
+                # list_menu.grid(row=i, column=1, padx=10, pady=10)
+                options_logged_profile = ["Adicionar filme", "Excluir filme", "Apagar lista"]
+                self.options_var = customtkinter.StringVar(value=options_logged_profile[0])
+                
+                option_menu = customtkinter.CTkOptionMenu(self.app,
+                                                values=options_logged_profile,
+                                                variable=self.options_var,
+                                                width=100,
+                                                corner_radius=5,
+                                                text_color=("black", "white"),
+                                                dropdown_text_color=("black", "white"),
+                                                font=("Arial", 12))
+                option_menu.grid(row=i, column=2, padx=10, pady=10)
+            else:
+                if not db.check_like(self.list_id, self.id_user):
+                    self.like_button[i] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = self.list_id, row = i: self.like_event(list_id,row))
+                    self.like_button[i].grid(row=i, column=2, padx=10, pady=10)
+                else:
+                    self.like_button[i] = customtkinter.CTkButton(self.app, text="Descurtir", command=lambda list_id = self.list_id, row = i: self.unlike_event(list_id,row))
+                    self.like_button[i].grid(row=i, column=2, padx=10, pady=10)
+
+    def like_event(self, id_list,pos):
         db = database()
         db.like_list(id_list, self.id_user)
-        self.update_like_button(id_list, liked=True)
-
-    def unlike_event(self, id_list):
+        self.like_button[pos].grid_remove()
+        self.like_button[pos] = customtkinter.CTkButton(self.app, text="Descurtir", command=lambda list_id = id_list, row=pos: self.unlike_event(list_id,row))
+        self.like_button[pos].grid(row=pos, column=2, padx=10, pady=10)
+         
+    def unlike_event(self, id_list,pos):
         db = database()
         db.unlike_list(id_list, self.id_user)
-        self.update_like_button(id_list, liked=False)
+        self.like_button[pos].grid_remove()
+        self.like_button[pos] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = id_list, row=pos: self.like_event(list_id,row))
+        self.like_button[pos].grid(row=pos, column=2, padx=10, pady=10)
+    
+    # def update_like_button(self, id_list, liked):
+    #     if liked:
+    #         button_text = "Descurtir"
+    #         command = lambda id_list=id_list: self.unlike_event(id_list)
+    #     else:
+    #         button_text = "Curtir"
+    #         command = lambda id_list=id_list: self.like_event(id_list)
 
-    def update_like_button(self, id_list, liked):
-        if liked:
-            button_text = "Descurtir"
-            command = lambda id_list=id_list: self.unlike_event(id_list)
-        else:
-            button_text = "Curtir"
-            command = lambda id_list=id_list: self.like_event(id_list)
+    #     if not self.like_button:
+    #         self.like_button = customtkinter.CTkButton(self.app, text=button_text, command=command)
+    #     else:
+    #         self.like_button.configure(text=button_text, command=command)
 
-        if not self.like_button:
-            self.like_button = customtkinter.CTkButton(self.app, text=button_text, command=command)
-        else:
-            self.like_button.configure(text=button_text, command=command)
-
-        self.like_button.configure(text=button_text, command=command)
+    #     self.like_button.configure(text=button_text, command=command)
 
         # Force a redraw of the button
-        self.like_button.update_idletasks()
-         
+        # self.like_button.update_idletasks()
+
+            
     def show_movies_in_list(self, id_list):
         db = database()
         movies = db.return_movies_in_list(id_list)

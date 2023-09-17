@@ -29,6 +29,7 @@ class LoginPage:
         # botão de login
         login_button = customtkinter.CTkButton(master, text="Login", command=self.efetuar_login)
         login_button.pack(padx=10, pady=10)
+        
 
     def efetuar_login(self):
         username = self.username_entry.get()
