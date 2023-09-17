@@ -3,10 +3,12 @@ import psycopg2
 from tkinter import messagebox
 from classeCadastroFilmeWindow import CadastroFilmeWindow
 from conexaoBD import database
+import customtkinter
 
 class RegistroPage:
     def __init__(self, master):
         self.master = master
+        self.master.geometry("320x400")
         self.master.title("Nome do App")
 
         # atributos de registro usuario
@@ -16,29 +18,35 @@ class RegistroPage:
         self.telefoneuser_entry = tk.Entry(master, width=30)
         self.paisuser_entry = tk.Entry(master, width=30)
 
-        nomeuser_label = tk.Label(master, text="Nome de Usuário")
+        nomeuser_label = customtkinter.CTkLabel(master, text="Nome de Usuário")
         nomeuser_label.pack()
-        self.nomeuser_entry.pack()
+        self.username_entry = customtkinter.CTkEntry(master, width=100)
+        self.username_entry.pack()
 
-        emailuser_label = tk.Label(master, text="Email de Usuário")
+        emailuser_label = customtkinter.CTkLabel(master, text="Email do Usuário")
         emailuser_label.pack()
+        self.emailuser_entry = customtkinter.CTkEntry(master, width=100)
         self.emailuser_entry.pack()
 
-        senhauser_label = tk.Label(master, text="Senha de Usuário")
+        senhauser_label = customtkinter.CTkLabel(master, text="Senha de Usuário")
         senhauser_label.pack()
+        self.senhauser_entry = customtkinter.CTkEntry(master, width=100)
         self.senhauser_entry.pack()
 
-        telefoneuser_label = tk.Label(master, text="Telefone de Usuário")
+        telefoneuser_label = customtkinter.CTkLabel(master, text="Telefone do Usuário")
         telefoneuser_label.pack()
+        self.telefoneuser_entry = customtkinter.CTkEntry(master, width=100)
         self.telefoneuser_entry.pack()
 
-        paisuser_label = tk.Label(master, text="País de Usuário")
+        paisuser_label = customtkinter.CTkLabel(master, text="País do Usuário")
         paisuser_label.pack()
+        self.paisuser_entry = customtkinter.CTkEntry(master, width=100)
         self.paisuser_entry.pack()
 
         # botão de registro
-        registro_button = tk.Button(master, text="Registrar", command=self.efetuar_registro)
-        registro_button.pack()
+        registro_button = customtkinter.CTkButton(master, text="Registrar", command=self.efetuar_registro)
+        registro_button.pack(padx=10, pady=10)
+        
 
     def efetuar_registro(self):
         nomeuser = self.nomeuser_entry.get()

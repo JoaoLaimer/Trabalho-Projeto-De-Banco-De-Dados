@@ -1,5 +1,6 @@
 import tkinter as tk
 import psycopg2
+import customtkinter
 from classeCadastroFilmeWindow import CadastroFilmeWindow
 from classeLogin import LoginPage
 from classeRegistro import RegistroPage
@@ -8,23 +9,33 @@ from classeBusca import BuscaPage
 from classeMinhasListas import MinhasListasPage
 from classeCriarLista import CriarListaPage
 from classeFilme import FilmePage
+import tkinter.messagebox
 
-class App:
+
+customtkinter.set_appearance_mode("light") 
+customtkinter.set_default_color_theme("blue")  
+
+
+class App(customtkinter.CTk):
+
     def __init__(self, master):
+        super().__init__()
+        
         self.master = master
-        self.master.geometry("200x200")
+        self.master.geometry("320x400")
         self.master.title("Nome do App")
         self.botao_registro_filme = None  # none pq ele nao aparece
         self.botao_login_registro = None
 
         # botao pra tela de login
-        self.login_button = tk.Button(master, text="Login", command=self.abrir_pagina_login)
+        self.login_button = customtkinter.CTkButton(master, text="Login", command=self.abrir_pagina_login)
         self.login_button.grid(row=0, column=0, padx=10, pady=10)
         
-        self.signup_button = tk.Button(master, text="Sign Up", command=self.abrir_pagina_registro)
+        self.signup_button = customtkinter.CTkButton(master, text="Sign Up", command=self.abrir_pagina_registro)
         self.signup_button.grid(row=0, column=1, padx=10, pady=10)
 
         self.user_id_loggado = None
+        
 
     def abrir_pagina_login(self):
         login_window = tk.Toplevel(self.master)
@@ -46,19 +57,24 @@ class App:
         self.user_id_loggado = user_id
 
     def create_landing_page(self):
-        self.master.geometry("500x500")
+        self.master.geometry("320x400")
+        
+        
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure((2, 3), weight=0)
+        self.grid_rowconfigure((0, 1, 2), weight=1)
+        
+        self.perfil_button = customtkinter.CTkButton(self.master, text="Perfil", command=lambda :self.abrir_pagina_perfil(self.user_id_loggado))
+        self.perfil_button.grid(row=2, column=0, padx=20, pady=10)
 
-        self.perfil_button = tk.Button(self.master, text="Perfil", command=lambda :self.abrir_pagina_perfil(self.user_id_loggado))
-        self.perfil_button.grid(row=0, column=0, padx=10, pady=10)
+        self.busca_button = customtkinter.CTkButton(self.master, text="Busca", command=self.abrir_pagina_busca)
+        self.busca_button.grid(row=3, column=0, padx=20, pady=10)
 
-        self.busca_button = tk.Button(self.master, text="Busca", command=self.abrir_pagina_busca)
-        self.busca_button.grid(row=0, column=1, padx=10, pady=10)
+        self.minha_lista_button = customtkinter.CTkButton(self.master, text="Minhas Listas", command=lambda :self.exibir_lista_filmes(self.user_id_loggado, True))
+        self.minha_lista_button.grid(row=4, column=0, padx=20, pady=10)
 
-        self.minha_lista_button = tk.Button(self.master, text="Minhas Listas", command=lambda :self.exibir_lista_filmes(self.user_id_loggado))
-        self.minha_lista_button.grid(row=0, column=2, padx=10, pady=10)
-
-        self.cria_lista_button = tk.Button(self.master, text="Criar Lista", command=self.abrir_pagina_criar_lista)
-        self.cria_lista_button.grid(row=0, column=3, padx=10, pady=10)
+        self.cria_lista_button = customtkinter.CTkButton(self.master, text="Criar Lista", command=self.abrir_pagina_criar_lista)
+        self.cria_lista_button.grid(row=5, column=0, padx=10, pady=10)
 
     def abrir_pagina_perfil(self,user_id):
         perfil_window = tk.Toplevel(self.master)
@@ -71,10 +87,13 @@ class App:
     def exibir_lista_filmes(self, id_user, bool):
         lista_window = tk.Toplevel(self.master)
         lista_page = MinhasListasPage(self, id_user, bool, lista_window)
-    
+
     def abrir_pagina_criar_lista(self):
         cria_lista_window = tk.Toplevel(self.master)
         cria_lista_page = CriarListaPage(self,self.user_id_loggado, cria_lista_window)
+
+
+    
 
 if __name__ == "__main__":
     root = tk.Tk()
