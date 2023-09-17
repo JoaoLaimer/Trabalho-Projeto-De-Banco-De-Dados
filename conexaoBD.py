@@ -250,8 +250,36 @@ class database:
             self.cursor.execute(consulta_sql, (id_movie, id_list))
             self.connection.commit()
             self.connection.close()
+<<<<<<< HEAD
 
         def return_review_by_user(self, id_user):
             consulta_sql = ("SELECT usuario.nomeuser, filme.titulofilme, review.nota, review.texto_review FROM review JOIN usuario on review.id_user = usuario.id_user JOIN filme on review.id_filme = filme.id_filme WHERE usuario.id_user = %s")
             self.cursor.execute(consulta_sql, (id_user,))
             return self.cursor.fetchall()
+=======
+            
+        def insert_newMovie(self,titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio):
+            consulta_sql = "INSERT INTO filme(titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            self.cursor.execute(consulta_sql, (titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio))
+            self.connection.commit()
+            self.connection.close()
+        
+        def insert_newDiretor(self,nomediretor):
+            consulta_sql = "INSERT INTO diretor(nomediretor) VALUES (%s)"
+            self.cursor.execute(consulta_sql, (nomediretor))
+            self.connection.commit()
+            self.connection.close()
+            
+        def insert_newProdutora(self,nome_estudio):
+            consulta_sql = "INSERT INTO estudio(nome_estudio) VALUES (%s)"
+            self.cursor.execute(consulta_sql, (nome_estudio))
+            self.connection.commit()
+            self.connection.close()
+        
+        def insert_newAtor(self,nomeator):
+            consulta_sql = "INSERT INTO ator(nomeator) VALUES (%s)"
+            self.cursor.execute(consulta_sql, (nomeator))
+            self.connection.commit()
+            self.connection.close()
+
+>>>>>>> 776303f2398bc55258744b10d462aeada2533d46

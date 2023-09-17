@@ -20,23 +20,11 @@ class CadastroAtorWindow(tk.Toplevel):
         insert_button.pack(padx=10, pady=10)
 
     def salvar_ator(self):
-        nome_ator = self.ator_entry.get()
+        nomeator = self.ator_entry.get()
 
         try:
-            connection = psycopg2.connect(
-                dbname="trabalhoPDB",
-                user="postgres",
-                password="271202",
-                host="26.29.242.113",
-                port="5432"
-            )
-            cursor = connection.cursor()
-
-            consulta_sql = "INSERT INTO ator(nomeator) VALUES (%s)"
-            cursor.execute(consulta_sql, (nome_ator,))
-
-            connection.commit()
-            connection.close()
+            db = database()
+            db.insert_newAtor(nomeator)
 
             self.ator_entry.delete(0, tk.END)
             messagebox.showinfo("Nome do App", "Ator cadastrado com sucesso!")
