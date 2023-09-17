@@ -76,8 +76,16 @@ class App(customtkinter.CTk):
         self.minha_lista_button = customtkinter.CTkButton(self.master, text="Minhas Listas", command=lambda :self.exibir_lista_filmes(self.user_id_loggado, True))
         self.minha_lista_button.grid(row=4, column=0, padx=20, pady=10)
 
+<<<<<<< HEAD
+        self.minha_lista_button = tk.Button(self.master, text="Minhas Listas", command=lambda :self.exibir_lista_filmes(self.user_id_loggado, True))
+        self.minha_lista_button.grid(row=0, column=2, padx=10, pady=10)
+
+        self.cria_lista_button = tk.Button(self.master, text="Criar Lista", command=self.abrir_pagina_criar_lista)
+        self.cria_lista_button.grid(row=0, column=3, padx=10, pady=10)
+=======
         self.cria_lista_button = customtkinter.CTkButton(self.master, text="Criar Lista", command=self.abrir_pagina_criar_lista)
         self.cria_lista_button.grid(row=5, column=0, padx=10, pady=10)
+>>>>>>> 91e5745453fa1051049e4ab7e1bbc5f6aa27dea1
 
     def abrir_pagina_perfil(self,user_id):
         perfil_window = tk.Toplevel(self.master)
