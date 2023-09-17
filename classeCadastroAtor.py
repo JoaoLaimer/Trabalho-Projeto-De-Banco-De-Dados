@@ -3,6 +3,7 @@ from tkinter import ttk
 import psycopg2
 from tkinter import messagebox
 import customtkinter as ctk
+from conexaoBD import database
 
 class CadastroAtorWindow(tk.Toplevel):
     def __init__(self, master):

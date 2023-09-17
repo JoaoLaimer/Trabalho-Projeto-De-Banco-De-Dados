@@ -250,3 +250,8 @@ class database:
             self.cursor.execute(consulta_sql, (id_movie, id_list))
             self.connection.commit()
             self.connection.close()
+
+        def return_review_by_user(self, id_user):
+            consulta_sql = ("SELECT usuario.nomeuser, filme.titulofilme, review.nota, review.texto_review FROM review JOIN usuario on review.id_user = usuario.id_user JOIN filme on review.id_filme = filme.id_filme WHERE usuario.id_user = %s")
+            self.cursor.execute(consulta_sql, (id_user,))
+            return self.cursor.fetchall()
