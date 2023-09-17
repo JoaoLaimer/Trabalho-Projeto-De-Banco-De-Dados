@@ -49,6 +49,18 @@ class database:
             elif search_type == "Estudio":
                 self.table = "estudio"
                 search_type = "nome_estudio"
+            elif search_type == "Ator":
+                self.table = "ator"
+                search_type = "nomeator"
+                consulta_sql = "SELECT * FROM filme JOIN atua on filme.id_filme = atua.id_filme JOIN ator on atua.id_ator = ator.id_ator WHERE ator.nomeator = %s"
+                self.cursor.execute(consulta_sql, (search_value,))
+                return self.cursor.fetchall()
+            elif search_type == "Ano":
+                self.table = "filme"
+                search_type = "datalancamento"
+                consulta_sql = "SELECT * FROM filme WHERE EXTRACT( YEAR FROM datalancamento) = %s"
+                self.cursor.execute(consulta_sql, (search_value,))
+                return self.cursor.fetchall()
 
             consulta_sql = "SELECT * FROM " + self.table + " WHERE " + search_type + " = %s"
             self.cursor.execute(consulta_sql, (search_value,))
@@ -83,12 +95,20 @@ class database:
                 consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_diretor = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
                 return self.cursor.fetchone()
-            if id_type == "Estudio":
+            elif id_type == "Estudio":
                 consulta_sql = "SELECT COUNT(*) FROM filme WHERE id_estudio = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
                 return self.cursor.fetchone()
-            if id_type == "Gênero":
+            elif id_type == "Gênero":
                 consulta_sql = "SELECT COUNT(*) FROM filme WHERE generofilme = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+                return self.cursor.fetchone()
+            elif id_type == "Ator":
+                consulta_sql = "SELECT COUNT(*) FROM filme JOIN atua on filme.id_filme = atua.id_filme JOIN ator on atua.id_ator = ator.id_ator WHERE ator.nomeator = %s"
+                self.cursor.execute(consulta_sql, (id_any,))
+                return self.cursor.fetchone()
+            elif id_type == "Ano":
+                consulta_sql = "SELECT COUNT(*) FROM filme WHERE EXTRACT(YEAR FROM datalancamento) = %s"
                 self.cursor.execute(consulta_sql, (id_any,))
                 return self.cursor.fetchone()
             else:
