@@ -176,6 +176,12 @@ class database:
             self.cursor.execute(consulta_sql, (id_user, id_list))
             self.connection.commit()
             self.connection.close()
+
+        def return_liked_lists(self, id_user):
+            consulta_sql = "SELECT id_lista FROM curtir_lista WHERE id_user = %s"
+            self.cursor.execute(consulta_sql, (id_user,))
+            return self.cursor.fetchall()
+        
         
         def follow_user(self, id_user, id_followed):
                 consulta_sql = "INSERT INTO seguir(id_user_seguidor, id_user_seguido) VALUES (%s, %s)"

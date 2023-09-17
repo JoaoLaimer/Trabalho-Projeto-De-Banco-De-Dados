@@ -11,35 +11,27 @@ from classeCriarLista import CriarListaPage
 from classeFilme import FilmePage
 import tkinter.messagebox
 
-
 customtkinter.set_appearance_mode("light") 
 customtkinter.set_default_color_theme("blue")  
-
 
 class App(customtkinter.CTk):
 
     def __init__(self, master):
         super().__init__()
-        
         self.master = master
         self.master.geometry("320x400")
         self.master.title("Nome do App")
-        self.master.configure(bg="lightgray")
-        self.button_style = ("Arial", 28)
         self.botao_registro_filme = None  # none pq ele nao aparece
         self.botao_login_registro = None
-
         # botao pra tela de login
         self.login_button = customtkinter.CTkButton(master, text="Login", command=self.abrir_pagina_login)
         self.login_button.grid(row=0, column=0, padx=10, pady=10)
         
         self.signup_button = customtkinter.CTkButton(master, text="Sign Up", command=self.abrir_pagina_registro)
-        self.signup_button.grid(row=0, column=1, padx=10, pady=10)
-
+        self.signup_button.grid(row=1, column=0, padx=10, pady=10)
 
         self.user_id_loggado = None
         
-
     def abrir_pagina_login(self):
         login_window = tk.Toplevel(self.master)
         login_page = LoginPage(login_window, self)
@@ -61,7 +53,6 @@ class App(customtkinter.CTk):
 
     def create_landing_page(self):
         self.master.geometry("320x400")
-        
         
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure((2, 3), weight=0)
@@ -94,10 +85,7 @@ class App(customtkinter.CTk):
     def abrir_pagina_criar_lista(self):
         cria_lista_window = tk.Toplevel(self.master)
         cria_lista_page = CriarListaPage(self,self.user_id_loggado, cria_lista_window)
-
-
     
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
