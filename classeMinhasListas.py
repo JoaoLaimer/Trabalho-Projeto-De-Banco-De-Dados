@@ -19,7 +19,7 @@ class MinhasListasPage:
         username_label.grid(row=0, column=0, padx=10, pady=10)
 
         total_lists = db.check_total_user_lists(self.id_user)
-        total_lists_label = tk.Label(self.app, text=f"Total de listas: {total_lists}")
+        total_lists_label = tk.Label(self.app, text=f"Total de listas: {total_lists[0]}")
         total_lists_label.grid(row=1, column=0, padx=10, pady=10)
 
         self.list_lists()
@@ -28,26 +28,31 @@ class MinhasListasPage:
         options_logged_profile = ["Adicionar filme", "Excluir filme", "Apagar lista"]
         self.options_var = tk.StringVar(self.app)
         self.options_var.set(options_logged_profile[0])
-        
         checkbox_vars = []
         rowIncrement = 2
         db = database()
         lists = db.return_user_lists(self.id_user)
+        liked_lists = db.return_liked_lists(self.id_user)
+
+        for likes in liked_lists:
+            for item in likes:
+                print(item)
+            
         for list in lists:
             list_name = list[1]
             list_id = list[3]
             list_label = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda: self.show_movies_in_list(list_id))
             list_label.grid(row = rowIncrement, column = 0, padx = 10, pady = 10)
-
+            
             if self.bool:
                 list_menu = tk.OptionMenu(self.app, self.options_var, *options_logged_profile)
                 list_menu.grid(row=rowIncrement, column=1, padx=10, pady=10)
             else:
                 var = tk.IntVar()
                 checkbox_vars.append(var)
-
-                checkbox = tk.Checkbutton(self.app, text="Curtir Lista", variable=var, command=lambda: self.checkbox_event(list_id, var.get()))
+                checkbox = tk.Checkbutton(self.app, text="Curtir Lista", variable=var, command=lambda list_id = list_id, var = var: self.checkbox_event(list_id, var.get()))
                 checkbox.grid(row=rowIncrement, column=1, padx=10, pady=10)
+
             rowIncrement += 1
 
     def show_movies_in_list(self, id_list):
@@ -65,8 +70,14 @@ class MinhasListasPage:
             rowIncrement += 1
 
     def checkbox_event(self, id_list, value):
+        print(f"ID LIST: {id_list} {value}")
         db = database()
         if value == 1:
             db.like_list(id_list, self.id_user)
         else:
             db.unlike_list(id_list, self.id_user)
+
+    """def restore_checkbox_states(self):
+        for list_id, checkbox_var in self.checkbox_states.items():
+            var_state = 1 if list_id in liked_lists else 0
+            checkbox_var.set(var_state)"""
