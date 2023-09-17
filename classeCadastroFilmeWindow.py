@@ -3,6 +3,7 @@ from tkinter import ttk
 import psycopg2
 from tkinter import messagebox
 import customtkinter as ctk
+from conexaoBD import database  
 
 class CadastroFilmeWindow:
     def __init__(self, master):
@@ -55,31 +56,18 @@ class CadastroFilmeWindow:
         insert_button.pack(padx=10, pady=10)
 
     def adicionar_filme(self):
-        titulo = self.titulofilme_entry.get()
-        genero = self.genero_entry.get()
+        titulofilme = self.titulofilme_entry.get()
+        generofilme = self.genero_entry.get()
         classificacao = self.classificacao_entry.get()
-        pais = self.paisdeproducao_entry.get()
+        paisdeproducao = self.paisdeproducao_entry.get()
         duracao = self.duracao_entry.get()
-        ano = self.datalancamento_entry.get()
-        produtora = self.id_produtora_entry.get()
-        diretor = self.id_diretor_entry.get()
+        datalancamento = self.datalancamento_entry.get()
+        id_estudio = self.id_produtora_entry.get()
+        id_diretor = self.id_diretor_entry.get()
 
         try:
-            connection = psycopg2.connect(
-                dbname="trabalhoPDB",
-                user="postgres",
-                password="271202",
-                host="26.29.242.113",
-                port="5432"
-            )
-            cursor = connection.cursor()
-
-            # Consulta SQL para inserir o filme na tabela
-            consulta_sql = "INSERT INTO filme(titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(consulta_sql, (titulo, genero, classificacao, pais, duracao, ano, diretor, produtora))
-
-            connection.commit()
-            connection.close()
+            db = database()
+            db.insert_newMovie(titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio)
 
             self.titulofilme_entry.delete(0, tk.END)
             self.genero_entry.delete(0, tk.END)

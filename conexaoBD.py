@@ -235,6 +235,7 @@ class database:
                 self.connection.commit()
                 self.connection.close()
 
+
         def delete_list(self, id_list):
             consula_sql = "SELECT * FROM lista WHERE id_lista = %s"
             self.cursor.execute(consula_sql, (id_list,))
@@ -249,3 +250,28 @@ class database:
             self.cursor.execute(consulta_sql, (id_movie, id_list))
             self.connection.commit()
             self.connection.close()
+            
+        def insert_newMovie(self,titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio):
+            consulta_sql = "INSERT INTO filme(titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            self.cursor.execute(consulta_sql, (titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio))
+            self.connection.commit()
+            self.connection.close()
+        
+        def insert_newDiretor(self,nomediretor):
+            consulta_sql = "INSERT INTO diretor(nomediretor) VALUES (%s)"
+            self.cursor.execute(consulta_sql, (nomediretor))
+            self.connection.commit()
+            self.connection.close()
+            
+        def insert_newProdutora(self,nome_estudio):
+            consulta_sql = "INSERT INTO estudio(nome_estudio) VALUES (%s)"
+            self.cursor.execute(consulta_sql, (nome_estudio))
+            self.connection.commit()
+            self.connection.close()
+        
+        def insert_newAtor(self,nomeator):
+            consulta_sql = "INSERT INTO ator(nomeator) VALUES (%s)"
+            self.cursor.execute(consulta_sql, (nomeator))
+            self.connection.commit()
+            self.connection.close()
+
