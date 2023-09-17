@@ -49,7 +49,7 @@ class MeuPerfilPage:
                                        corner_radius=3)
         label.grid(row=2, column=0, padx=10, pady=10)
         
-        seguidores_id = tk.StringVar(value=f"{self.followers} Usuários")
+        seguidores_id = tk.StringVar(value=f"{self.followers} Usuário(s)")
         label = customtkinter.CTkLabel(self.app,
                                        textvariable=seguidores_id,
                                        width=120,
@@ -67,7 +67,7 @@ class MeuPerfilPage:
                                        corner_radius=3)
         label.grid(row=3, column=0, padx=10, pady=10)
         
-        seguindo_id = tk.StringVar(value=f"{self.following} Usuário")
+        seguindo_id = tk.StringVar(value=f"{self.following} Usuário(s)")
         label = customtkinter.CTkLabel(self.app,
                                        textvariable=seguindo_id,
                                        width=120,
