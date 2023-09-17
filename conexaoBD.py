@@ -124,3 +124,18 @@ class database:
             self.cursor.execute(consulta_sql, (id_user,))
             return self.cursor.fetchall()
         
+        def return_movies_in_list(self, id_list):
+            consulta_sql = "SELECT id_filme FROM pertence_lista WHERE id_lista = %s"
+            self.cursor.execute(consulta_sql, (id_list,))
+            return self.cursor.fetchall()
+        
+        def get_movie_name(self, id_movie):
+            consulta_sql = "SELECT titulofilme FROM filme WHERE id_filme = %s"
+            self.cursor.execute(consulta_sql, (id_movie,))
+            return self.cursor.fetchone()
+        
+        def get_user_id(self, username):
+            consulta_sql = "SELECT id_user FROM usuario WHERE nomeuser = %s"
+            self.cursor.execute(consulta_sql, (username,))
+            return self.cursor.fetchone()
+        
