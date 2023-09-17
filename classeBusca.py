@@ -53,8 +53,6 @@ class BuscaPage:
                 self.master.abrir_pagina_perfil(resultado[0][0])
             else:
                 self.app.withdraw()
-
-
                 self.abrir_pagina_filme(resultado[0][0],self.search_type)
 
         else:

@@ -26,10 +26,10 @@ class FilmePage:
         if id_type == "Diretor":
             filme_info = db.return_filme(self.id_type,self.id_any)
             print(filme_info)
-            diretor_nome = db.return_diretor(filme_info[0][7])
+            diretor_nome = db.return_diretor(filme_info[0][6])
             for i in range(self.qntd_filmes[0]):
-                estudio_nome = db.return_estudio(filme_info[i][8])
-                filme_info_label = tk.Label(master, text=f"Titulo: {filme_info[i][1]}, Genero: {filme_info[i][2]}, Data de Lançamento: {filme_info[i][3]}, Duração: {filme_info[i][4]}, Classificação: {filme_info[i][5]}, País de Produção: {filme_info[i][6]}, Nome do Diretor: {diretor_nome[1]}, Nome do Estudio: {estudio_nome[1]}")
+                estudio_nome = db.return_estudio(filme_info[i][7])
+                filme_info_label = tk.Label(master, text=f"Titulo: {filme_info[i][1]}, Genero: {filme_info[i][2]}, Data de Lançamento: {filme_info[i][8]}, Duração: {filme_info[i][3]}, Classificação: {filme_info[i][4]}, País de Produção: {filme_info[i][5]}, Nome do Diretor: {diretor_nome[1]}, Nome do Estudio: {estudio_nome[1]}")
                 filme_info_label.grid(row=i, column=0, padx=10, pady=10)
 
                 filme_adicionar_na_lista = tk.Button(master, text="Adicionar na Lista", command=lambda: self.adicionar_na_lista(filme_info[i][0]))
@@ -37,10 +37,10 @@ class FilmePage:
 
         elif id_type == "Estudio":
             filme_info = db.return_filme(self.id_type,self.id_any)
-            estudio_nome = db.return_estudio(filme_info[0][8])
+            estudio_nome = db.return_estudio(filme_info[0][7])
             for i in range(self.qntd_filmes[0]):
-                diretor_nome = db.return_diretor(filme_info[i][7])
-                filme_info_label = tk.Label(master, text=f"Titulo: {filme_info[i][1]}, Genero: {filme_info[i][2]}, Data de Lançamento: {filme_info[i][3]}, Duração: {filme_info[i][4]}, Classificação: {filme_info[i][5]}, País de Produção: {filme_info[i][6]}, Nome do Diretor: {diretor_nome[1]}, Nome do Estudio: {estudio_nome[1]}")
+                diretor_nome = db.return_diretor(filme_info[i][6])
+                filme_info_label = tk.Label(master, text=f"Titulo: {filme_info[i][1]}, Genero: {filme_info[i][2]}, Data de Lançamento: {filme_info[i][8]}, Duração: {filme_info[i][3]}, Classificação: {filme_info[i][4]}, País de Produção: {filme_info[i][5]}, Nome do Diretor: {diretor_nome[1]}, Nome do Estudio: {estudio_nome[1]}")
                 filme_info_label.grid(row=i, column=0, padx=10, pady=10)
                 
                 filme_adicionar_na_lista = tk.Button(master, text="Adicionar na Lista", command=lambda: self.adicionar_na_lista(filme_info[i][0]))
@@ -50,9 +50,9 @@ class FilmePage:
             print(filme_info)
 
             for i in range(self.qntd_filmes[0]):
-                diretor_nome = db.return_diretor(filme_info[i][7])
-                estudio_nome = db.return_estudio(filme_info[i][8])
-                filme_info_label = tk.Label(master, text=f"Titulo: {filme_info[i][1]}, Genero: {filme_info[i][2]}, Data de Lançamento: {filme_info[i][3]}, Duração: {filme_info[i][4]}, Classificação: {filme_info[i][5]}, País de Produção: {filme_info[i][6]}, Nome do Diretor: {diretor_nome[1]}, Nome do Estudio: {estudio_nome[1]}")
+                diretor_nome = db.return_diretor(filme_info[i][6])
+                estudio_nome = db.return_estudio(filme_info[i][7])
+                filme_info_label = tk.Label(master, text=f"Titulo: {filme_info[i][1]}, Genero: {filme_info[i][2]}, Data de Lançamento: {filme_info[i][8]}, Duração: {filme_info[i][3]}, Classificação: {filme_info[i][4]}, País de Produção: {filme_info[i][5]}, Nome do Diretor: {diretor_nome[1]}, Nome do Estudio: {estudio_nome[1]}")
                 filme_info_label.grid(row=i, column=0, padx=10, pady=10)
 
                 filme_adicionar_na_lista = tk.Button(master, text="Adicionar na Lista", command=lambda: self.adicionar_na_lista(filme_info[i][0]))
