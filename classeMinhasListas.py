@@ -8,11 +8,9 @@ from tkinter import messagebox
 class MinhasListasPage:
     def __init__(self, master, id_user, bool, app):
         self.master = master
-        self.master.geometry("320x400")
         self.id_user = id_user
         self.bool = bool
         self.app = app 
-        self.app.title("Nome do App")
         self.like_button = None
         self.unlike_button = None
         db = database()
@@ -25,7 +23,12 @@ class MinhasListasPage:
         total_lists = db.check_total_user_lists(self.id_user)
         total_lists_label = tk.Label(self.app, text=f"Total de listas: {total_lists[0]}")
         total_lists_label.grid(row=1, column=0, padx=10, pady=10)
-
+        
+        try:
+            self.id_filme = self.master.get_id_filme()
+        except:
+            self.id_filme = None
+        print(self.id_filme)
         self.list_lists()
 
     def list_lists(self):
@@ -40,18 +43,26 @@ class MinhasListasPage:
             self.list_id = lists[i][3]
             list_label = [None for _ in range(len(lists))]
 
-            if self.bool:
-                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, True))
-                list_label[i].grid(row = i+2, column = 0, padx = 10, pady = 10)
+            if self.id_filme != None:
+                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.add_movie_to_list(self.id_filme,list_id))
+                list_label[i].grid(row = i, column = 0, padx = 10, pady = 10) 
             else:
-                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, False))
-                list_label[i].grid(row = i, column = 0, padx = 10, pady = 10)
-                if not db.check_like(self.list_id, self.id_user):
-                    self.like_button[i] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = self.list_id, row = i: self.like_event(list_id,row))
-                    self.like_button[i].grid(row=i, column=2, padx=10, pady=10)
+                if self.bool:
+                    list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, bool))
+                    list_label[i].grid(row = i, column = 0, padx = 10, pady = 10)
+                    """self.remove_button = customtkinter.CTkButton(self.app, text="Remover", command=lambda list_id = self.list_id: self.remove_movie(list_id))
+                    self.remove_button.grid(row=i, column=1, padx=10, pady=10)
+                    self.delete_list_button = customtkinter.CTkButton(self.app, text="Apagar lista", command=lambda list_id = self.list_id: self.delete_list(list_id))
+                    self.delete_list_button.grid(row=i, column=2, padx=10, pady=10)"""
                 else:
-                    self.like_button[i] = customtkinter.CTkButton(self.app, text="Descurtir", command=lambda list_id = self.list_id, row = i: self.unlike_event(list_id,row))
-                    self.like_button[i].grid(row=i, column=2, padx=10, pady=10)
+                    list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id))
+                    list_label[i].grid(row = i, column = 0, padx = 10, pady = 10)
+                    if not db.check_like(self.list_id, self.id_user):
+                        self.like_button[i] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = self.list_id, row = i: self.like_event(list_id,row))
+                        self.like_button[i].grid(row=i, column=2, padx=10, pady=10)
+                    else:
+                        self.like_button[i] = customtkinter.CTkButton(self.app, text="Descurtir", command=lambda list_id = self.list_id, row = i: self.unlike_event(list_id,row))
+                        self.like_button[i].grid(row=i, column=2, padx=10, pady=10)
 
     def like_event(self, id_list,pos):
         db = database()
@@ -100,4 +111,12 @@ class MinhasListasPage:
         db.delete_movie(id_movie, id_list)
         self.delete_movie_button[pos].grid_remove()
         messagebox.showinfo("Sucesso", "Filme apagado com sucesso!")
+        
+    def add_movie_to_list(self,id_filme,id_lista):
+        db = database()
+        if db.add_movie_to_list(id_filme,id_lista):
+            messagebox.showinfo("Sucesso", "Filme adicionado com sucesso!")
+        else:
+            messagebox.showerror("Erro", "Filme já está na lista!")
+
         self.app.destroy()

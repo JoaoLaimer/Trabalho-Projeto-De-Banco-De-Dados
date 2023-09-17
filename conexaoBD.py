@@ -209,9 +209,32 @@ class database:
         
         def add_movie_to_list(self, id_filme, id_list):
             consulta_sql = "INSERT INTO pertence_lista(id_filme, id_lista) VALUES (%s, %s)"
-            self.cursor.execute(consulta_sql, (id_filme, id_list))
+            try:
+                self.cursor.execute(consulta_sql, (id_filme, id_list))
+            except psycopg2.IntegrityError:
+                self.connection.rollback()
+                return False
+            
             self.connection.commit()
             self.connection.close()
+            return True
+
+        def insert_review(self,id_filme,id_user,nota,review):
+            if(review == ""):
+                review = None
+
+            consulta_sql = "INSERT INTO review(id_filme,id_user,nota,texto_review) VALUES (%s,%s,%s,%s)"
+
+            consulta_sql2= "UPDATE review SET nota = %s,texto_review = %s WHERE id_filme = %s AND id_user = %s"
+            try:
+                self.cursor.execute(consulta_sql, (id_filme, id_user, nota, review))
+            except psycopg2.IntegrityError:
+                self.connection.rollback()
+                self.cursor.execute(consulta_sql2, (nota, review, id_filme, id_user))
+            finally:
+                self.connection.commit()
+                self.connection.close()
+
 
         def delete_list(self, id_list):
             consula_sql = "SELECT * FROM lista WHERE id_lista = %s"
