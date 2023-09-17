@@ -206,9 +206,15 @@ class database:
         
         def add_movie_to_list(self, id_filme, id_list):
             consulta_sql = "INSERT INTO pertence_lista(id_filme, id_lista) VALUES (%s, %s)"
-            self.cursor.execute(consulta_sql, (id_filme, id_list))
+            try:
+                self.cursor.execute(consulta_sql, (id_filme, id_list))
+            except psycopg2.IntegrityError:
+                self.connection.rollback()
+                return False
+            
             self.connection.commit()
             self.connection.close()
+            return True
 
         def insert_review(self,id_filme,id_user,nota,review):
             if(review == ""):
