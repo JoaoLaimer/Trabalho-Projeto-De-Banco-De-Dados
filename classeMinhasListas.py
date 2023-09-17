@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from conexaoBD import database
 import customtkinter
+from classeAdicionarFilme import AdicionarFilmePage
 
 class MinhasListasPage:
     def __init__(self, master, id_user, bool, app):
@@ -46,7 +47,7 @@ class MinhasListasPage:
             list_label.grid(row = rowIncrement, column = 0, padx = 10, pady = 10)
             
             if self.bool:
-                list_menu = tk.OptionMenu(self.app, self.options_var, *options_logged_profile)
+                list_menu= tk.OptionMenu(self.app, self.options_var, *options_logged_profile)
                 list_menu.grid(row=rowIncrement, column=1, padx=10, pady=10)
             else:
                 if not db.check_like(list_id, self.id_user):
@@ -84,9 +85,8 @@ class MinhasListasPage:
 
         # Force a redraw of the button
         self.like_button.update_idletasks()
-
-            
-    """def show_movies_in_list(self, id_list):
+         
+    def show_movies_in_list(self, id_list):
         db = database()
         movies = db.return_movies_in_list(id_list)
 
@@ -98,4 +98,4 @@ class MinhasListasPage:
             movie_name = db.get_movie_name(movie_id) 
             movie_label = tk.Label(movie_window, text=movie_name)
             movie_label.grid(row = rowIncrement, column = 0, padx = 10, pady = 10)
-            rowIncrement += 1"""
+            rowIncrement += 1
