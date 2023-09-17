@@ -66,5 +66,8 @@ class BuscaPage:
 
     def get_search_value(self):
         return self.search_value
+    
+    def get_id_user_loggado(self):
+        return self.user_id_logged
         
 

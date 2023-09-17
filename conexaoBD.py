@@ -209,4 +209,21 @@ class database:
             self.cursor.execute(consulta_sql, (id_filme, id_list))
             self.connection.commit()
             self.connection.close()
-     
+
+        def insert_review(self,id_filme,id_user,nota,review):
+            if(review == ""):
+                review = None
+
+            consulta_sql = "INSERT INTO review(id_filme,id_user,nota,texto_review) VALUES (%s,%s,%s,%s)"
+
+            consulta_sql2= "UPDATE review SET nota = %s,texto_review = %s WHERE id_filme = %s AND id_user = %s"
+            try:
+                self.cursor.execute(consulta_sql, (id_filme, id_user, nota, review))
+            except psycopg2.IntegrityError:
+                self.connection.rollback()
+                self.cursor.execute(consulta_sql2, (nota, review, id_filme, id_user))
+            finally:
+                self.connection.commit()
+                self.connection.close()
+
+
