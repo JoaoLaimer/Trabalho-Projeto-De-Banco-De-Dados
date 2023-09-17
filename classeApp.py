@@ -1,5 +1,5 @@
 import tkinter as tk
-import psycopg2
+import customtkinter
 from classeCadastroFilmeWindow import CadastroFilmeWindow
 from classeLogin import LoginPage
 from classeRegistro import RegistroPage
@@ -14,15 +14,17 @@ class App:
         self.master = master
         self.master.geometry("200x200")
         self.master.title("Nome do App")
+        self.master.configure(bg="lightgray")
+        self.button_style = ("Arial", 28)
         self.botao_registro_filme = None  # none pq ele nao aparece
         self.botao_login_registro = None
 
         # botao pra tela de login
-        self.login_button = tk.Button(master, text="Login", command=self.abrir_pagina_login)
+        self.login_button = tk.Button(master, text="Login", command=self.abrir_pagina_login, font=self.button_style)
         self.login_button.grid(row=0, column=0, padx=10, pady=10)
         
-        self.signup_button = tk.Button(master, text="Sign Up", command=self.abrir_pagina_registro)
-        self.signup_button.grid(row=0, column=1, padx=10, pady=10)
+        self.signup_button = tk.Button(master, text="Sign Up", command=self.abrir_pagina_registro, font=self.button_style)
+        self.signup_button.grid(row=1, column=0, padx=10, pady=10)
 
         self.user_id_loggado = None
 

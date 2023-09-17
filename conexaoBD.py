@@ -139,3 +139,20 @@ class database:
             self.cursor.execute(consulta_sql, (username,))
             return self.cursor.fetchone()
         
+        def insert_movie(self, id_list, id_movie):
+            consulta_sql = "INSERT INTO pertence_lista(id_lista, id_filme) VALUES (%s, %s)"
+            self.cursor.execute(consulta_sql, (id_list, id_movie))
+            self.connection.commit()
+            self.connection.close()
+
+        def like_list(self, id_user, id_list):
+            consulta_sql = "INSERT INTO curtir_lista(id_user, id_lista) VALUES (%s, %s)"
+            self.cursor.execute(consulta_sql, (id_user, id_list))
+            self.connection.commit()
+            self.connection.close()
+
+        def unlike_list(self, id_user, id_list):
+            consulta_sql = "DELETE FROM curtir_lista WHERE id_user = %s AND id_lista = %s"
+            self.cursor.execute(consulta_sql, (id_user, id_list))
+            self.connection.commit()
+            self.connection.close()
