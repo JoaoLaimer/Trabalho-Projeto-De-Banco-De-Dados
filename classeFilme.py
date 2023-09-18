@@ -4,6 +4,7 @@ from conexaoBD import database
 import customtkinter as ctk
 from classeReview import ReviewPage
 from classeMinhasListas import MinhasListasPage
+from ttkthemes import ThemedTk
 
 class FilmePage:
     def __init__(self, master, top ,id_any, id_type):
@@ -70,8 +71,8 @@ class FilmePage:
                 filme_review.grid(row=i, column=2, padx=10, pady=10)
     
     def abrir_pagina_review(self,id_filme,id_user):
-        self.review_window = tk.Toplevel(self.master)
-        self.review_page = ReviewPage(self.review_window, id_filme, id_user)
+        self.review_window = ThemedTk(theme="equilux") 
+        self.review_page = ReviewPage( self.review_window, id_filme, id_user)
     
     def adicionar_na_lista(self,id_filme,id_user):
         self.set_id_filme(id_filme)
