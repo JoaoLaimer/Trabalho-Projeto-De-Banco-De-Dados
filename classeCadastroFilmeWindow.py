@@ -4,6 +4,7 @@ import psycopg2
 from tkinter import messagebox
 import customtkinter as ctk
 from conexaoBD import database  
+from datetime import datetime
 
 class CadastroFilmeWindow:
     def __init__(self, master):
@@ -16,20 +17,20 @@ class CadastroFilmeWindow:
         self.paisdeproducao_entry = tk.Entry(master)
         self.duracao_entry = tk.Entry(master)
         self.datalancamento_entry = tk.Entry(master)
-        self.id_diretor_entry = tk.Entry(master)
-        self.id_produtora_entry = tk.Entry(master)
+        self.diretor_entry = tk.Entry(master)
+        self.produtora_entry = tk.Entry(master)
 
         titulo_label = ctk.CTkLabel(master, text="Título do Filme")
         titulo_label.pack()
         self.titulofilme_entry.pack()
 
-        id_diretor_label = ctk.CTkLabel(master, text="ID Diretor do Filme")
-        id_diretor_label.pack()
-        self.id_diretor_entry.pack()
+        diretor_label = ctk.CTkLabel(master, text="Nome do Diretor do Filme")
+        diretor_label.pack()
+        self.diretor_entry.pack()
         
-        id_produtora_label = ctk.CTkLabel(master, text="ID Produtora do Filme")
-        id_produtora_label.pack()
-        self.id_produtora_entry.pack()
+        produtora_label = ctk.CTkLabel(master, text="Nome da Produtora do Filme")
+        produtora_label.pack()
+        self.produtora_entry.pack()
 
         genero_label = ctk.CTkLabel(master, text="Gênero do Filme")
         genero_label.pack()
@@ -47,7 +48,7 @@ class CadastroFilmeWindow:
         duracao_label.pack()
         self.duracao_entry.pack()
 
-        ano_label = ctk.CTkLabel(master, text="Data de Lançamento")
+        ano_label = ctk.CTkLabel(master, text="Data de Lançamento (dd/mm/aaaa)")
         ano_label.pack()
         self.datalancamento_entry.pack()
 
@@ -62,12 +63,19 @@ class CadastroFilmeWindow:
         paisdeproducao = self.paisdeproducao_entry.get()
         duracao = self.duracao_entry.get()
         datalancamento = self.datalancamento_entry.get()
-        id_estudio = self.id_produtora_entry.get()
-        id_diretor = self.id_diretor_entry.get()
+        nomeestudio = self.produtora_entry.get()
+        nomediretor = self.diretor_entry.get()
+
+        try:
+            datalancamento = datetime.strptime(datalancamento, '%d/%m/%Y').date()
+            
+        except ValueError:
+            messagebox.showinfo("Nome do App", "Data de lançamento inválida!")
+            return
 
         try:
             db = database()
-            db.insert_newMovie(titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio)
+            db.insert_newMovie(titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, nomediretor, nomeestudio)
 
             self.titulofilme_entry.delete(0, tk.END)
             self.genero_entry.delete(0, tk.END)

@@ -260,12 +260,35 @@ class database:
             self.cursor.execute(consulta_sql, (id_user,))
             return self.cursor.fetchall()
             
-        def insert_newMovie(self,titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio):
-            consulta_sql = "INSERT INTO filme(titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            self.cursor.execute(consulta_sql, (titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, id_diretor, id_estudio))
+        def insert_newMovie(self,titulofilme, generofilme, classificacao, paisdeproducao, duracao, datalancamento, nomediretor, nomeestudio):
+            consulta_sql_diretor ="SELECT id_diretor FROM diretor WHERE nomediretor = %s"
+            
+            self.cursor.execute(consulta_sql_diretor, (nomediretor,))
+            self.id_diretor = self.cursor.fetchone()
+            if self.id_diretor is None:
+                consulta_sql_insert_diretor = "INSERT INTO diretor(nomediretor) VALUES (%s)"
+                self.cursor.execute(consulta_sql_insert_diretor, (nomediretor,))
+                self.connection.commit()
+                self.cursor.execute(consulta_sql_diretor, (nomediretor,))
+                self.id_diretor = self.cursor.fetchone()
+            
+            consulta_sql_estudio ="SELECT id_estudio FROM estudio WHERE nome_estudio = %s"
+            print("passou ",self.id_diretor)
+
+            self.cursor.execute(consulta_sql_estudio, (nomeestudio,))
+            self.id_estudio = self.cursor.fetchone()
+            if self.id_estudio is None:
+                consulta_sql = "INSERT INTO estudio(nome_estudio) VALUES (%s)"
+                self.cursor.execute(consulta_sql, (nomeestudio,))
+                self.connection.commit()
+                self.cursor.execute(consulta_sql_estudio, (nomeestudio,))
+                self.id_estudio = self.cursor.fetchone()
+            
+            consulta_sql = "INSERT INTO filme(titulofilme, generofilme, duracao, classificacao, paisdeproducao, id_diretor, id_estudio, datalancamento) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            self.cursor.execute(consulta_sql, (titulofilme, generofilme, duracao, classificacao, paisdeproducao, self.id_diretor, self.id_estudio, datalancamento))
             self.connection.commit()
             self.connection.close()
-        
+    
         def insert_newDiretor(self,nomediretor):
             consulta_sql = "INSERT INTO diretor(nomediretor) VALUES (%s)"
             self.cursor.execute(consulta_sql, (nomediretor,))
