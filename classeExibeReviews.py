@@ -8,7 +8,7 @@ class ExibeReviewsPage:
         self.master = master
         self.id_user = id_user
         self.bool = bool
-        self.master.geometry("400x420")
+        self.master.geometry("500x505")
         self.master.title("Review")
         
         self.canvas = Canvas(self.master)
