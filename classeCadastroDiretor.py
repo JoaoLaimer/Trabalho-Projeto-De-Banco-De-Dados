@@ -24,7 +24,7 @@ class CadastroDiretorWindow(tk.Toplevel):
 
         try:
             db = database()
-            user_id = db.insert_newDiretor(nomediretor)[0]
+            db.insert_newDiretor(nomediretor)
             
             self.diretor_entry.delete(0, tk.END)
             messagebox.showinfo("Nome do App", "Diretor cadastrado com sucesso!")
