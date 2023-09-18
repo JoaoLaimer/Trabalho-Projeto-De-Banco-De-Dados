@@ -70,7 +70,7 @@ class CadastroFilmeWindow:
             datalancamento = datetime.strptime(datalancamento, '%d/%m/%Y').date()
             
         except ValueError:
-            messagebox.showinfo("Nome do App", "Data de lançamento inválida!")
+            messagebox.showinfo("MovieHub", "Data de lançamento inválida!")
             return
 
         try:
@@ -84,6 +84,6 @@ class CadastroFilmeWindow:
             self.duracao_entry.delete(0, tk.END)
             self.datalancamento_entry.delete(0, tk.END)
 
-            messagebox.showinfo("Nome do App", "Filme adicionado com sucesso!")
+            messagebox.showinfo("MovieHub", "Filme adicionado com sucesso!")
         except Exception as e:
-            messagebox.showinfo("Nome do App", "Erro ao adicionar filme: " + str(e))
+            messagebox.showinfo("MovieHub", "Erro ao adicionar filme: " + str(e))

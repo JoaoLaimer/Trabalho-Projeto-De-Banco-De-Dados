@@ -159,21 +159,21 @@ class MeuPerfilPage:
         new_password = self.new_password_entry.get()
         
         if current_password == new_password:
-            tk.messagebox.showerror("Nome do App", "A nova senha não pode ser igual à senha atual.")
+            tk.messagebox.showerror("MovideHub", "A nova senha não pode ser igual à senha atual.")
         else:
             db = database()
             result = db.validate_password(self.id_user_logged, current_password)
             if result[0] is not None:
                 db.update_password(self.id_user_logged, new_password)
-                tk.messagebox.showinfo("Nome do App", "Senha atualizada com sucesso.")
+                tk.messagebox.showinfo("MovideHub", "Senha atualizada com sucesso.")
                 self.change_password_window.destroy()
-            tk.messagebox.showerror("Nome do App", "Credenciais inválidas. Tente novamente.")
+            tk.messagebox.showerror("MovideHub", "Credenciais inválidas. Tente novamente.")
             db.connection.close()
 
     def follow_user(self, id_user):
         db = database()
         db.follow_user(self.id_user_logged, id_user)
-        tk.messagebox.showinfo("Nome do App", "Usuário seguido com sucesso.")
+        tk.messagebox.showinfo("MovideHub", "Usuário seguido com sucesso.")
         self.user_follow.grid_remove()
         self.user_follow = customtkinter.CTkButton(self.app, text="Deixar de Seguir", command=lambda: self.unfollow_user(id_user))
         self.user_follow.grid(row=6, column=1, padx=10, pady=10)
@@ -182,7 +182,7 @@ class MeuPerfilPage:
     def unfollow_user(self, id_user):
         db = database()
         db.unfollow_user(self.id_user_logged, id_user)
-        tk.messagebox.showinfo("Nome do App", "Usuário deixado de seguir com sucesso.")
+        tk.messagebox.showinfo("MovideHub", "Usuário deixado de seguir com sucesso.")
         self.user_follow.grid_remove()
         self.user_follow = customtkinter.CTkButton(self.app, text="Seguir", command=lambda: self.follow_user(id_user))
         self.user_follow.grid(row=6, column=1, padx=10, pady=10)

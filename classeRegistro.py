@@ -9,7 +9,7 @@ class RegistroPage:
     def __init__(self, master):
         self.master = master
         self.master.geometry("320x400")
-        self.master.title("Nome do App")
+        self.master.title("MovieHub")
 
         # atributos de registro usuario
         self.nomeuser_entry = tk.Entry(master, width=30)
@@ -65,9 +65,9 @@ class RegistroPage:
             self.telefoneuser_entry.delete(0, tk.END)
             self.paisuser_entry.delete(0, tk.END)
 
-            messagebox.showinfo("Nome do App", "Registro de usuário concluído com sucesso!")
+            messagebox.showinfo("MovieHub", "Registro de usuário concluído com sucesso!")
         except Exception as e:
-            messagebox.showerror("Nome do App", "Erro ao registrar usuário: " + str(e))
+            messagebox.showerror("MovieHub", "Erro ao registrar usuário: " + str(e))
 
 
 

@@ -8,7 +8,7 @@ class AdicionarFilmePage:
         self.id_lista = id_lista
         self.id_filme = id_filme
         self.app = app  
-        self.app.title("Nome do App")
+        self.app.title("MovieHub")
 
         db = database()
 

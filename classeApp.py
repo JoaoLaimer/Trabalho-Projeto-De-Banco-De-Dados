@@ -24,7 +24,7 @@ class App(customtkinter.CTk):
         super().__init__()
         self.master = master
         self.master.geometry("320x400")
-        self.master.title("Nome do App")
+        self.master.title("MovieHub")
         self.botao_registro_filme = None  # none pq ele nao aparece
         self.botao_login_registro = None
         

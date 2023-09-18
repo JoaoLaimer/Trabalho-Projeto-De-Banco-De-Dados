@@ -27,6 +27,6 @@ class CadastroProdutoraWindow:
             db.insert_newProdutora(nome_estudio)
 
             self.produtora_entry.delete(0, tk.END)
-            messagebox.showinfo("Nome do App", "Produtora cadastrada com sucesso!")
+            messagebox.showinfo("MovideHub", "Produtora cadastrada com sucesso!")
         except Exception as e:
-            messagebox.showinfo("Nome do App", "Erro ao cadastrar produtor: " + str(e))
+            messagebox.showinfo("MovideHub", "Erro ao cadastrar produtor: " + str(e))

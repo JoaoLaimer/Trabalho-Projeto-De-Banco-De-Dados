@@ -45,8 +45,8 @@ class LoginPage:
                 self.app.set_user_id_loggado(db.validate_login(username, password)[0])
                 self.app.create_landing_page()
             else:
-                messagebox.showerror("Nome do App", "Credenciais inválidas. Tente novamente.")
+                messagebox.showerror("MovieHub", "Credenciais inválidas. Tente novamente.")
 
             db.connection.close()
         except Exception as e:
-            messagebox.showerror("Nome do App", "Erro ao efetuar login: " + str(e))
+            messagebox.showerror("MovieHub", "Erro ao efetuar login: " + str(e))
