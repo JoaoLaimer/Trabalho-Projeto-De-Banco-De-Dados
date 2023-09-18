@@ -88,7 +88,7 @@ class App(customtkinter.CTk):
         self.cria_lista_button = customtkinter.CTkButton(self.master, text="Criar Lista", command=self.abrir_pagina_criar_lista)
         self.cria_lista_button.grid(row=5, column=0, padx=10, pady=10)
 
-        self.mostra_reviews_button = customtkinter.CTkButton(self.master, text="Mostrar Reviews", command=lambda :self.mostrar_reviews(self.user_id_loggado)) 
+        self.mostra_reviews_button = customtkinter.CTkButton(self.master, text="Mostrar Reviews", command=lambda :self.mostrar_reviews(self.user_id_loggado, True)) 
         self.mostra_reviews_button.grid(row=6, column=0, padx=10, pady=10)
 
     def abrir_pagina_perfil(self,user_id):
@@ -126,9 +126,9 @@ class App(customtkinter.CTk):
     def cadastrar_produtora(self):
         cadastra_produtora_window = tk.Toplevel(self.master)
         cadastra_produtora_page = CadastroProdutoraWindow(cadastra_produtora_window)
-    def mostrar_reviews(self,id_user):
+    def mostrar_reviews(self, id_user, bool):
         mostrar_reviews_window = tk.Toplevel(self.master)
-        mostrar_reviews_page = ExibeReviewsPage(mostrar_reviews_window,id_user)
+        mostrar_reviews_page = ExibeReviewsPage(mostrar_reviews_window,id_user, bool)
         
 if __name__ == "__main__":
     root = tk.Tk()

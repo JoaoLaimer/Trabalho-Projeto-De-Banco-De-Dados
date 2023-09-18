@@ -130,11 +130,14 @@ class MeuPerfilPage:
             else:
                 self.user_follow = customtkinter.CTkButton(self.app, text="Seguir", command=lambda: self.follow_user(id_user))
                 self.user_follow.grid(row=6, column=1, padx=10, pady=10)
+
+            user_reviews = customtkinter.CTkButton(self.app, text="Reviews", command=lambda: self.master.mostrar_reviews(id_user, False))
+            user_reviews.grid(row=7, column=0, padx=10, pady=10)
                 
 
     def change_password(self):
         self.change_password_window = tk.Toplevel(self.app)
-        self.change_password_window.geometry("300x150")
+        self.change_password_window.geometry("350x200")
         self.change_password_window.title("Alterar Senha")
         
         password_label = customtkinter.CTkLabel(self.change_password_window, text="Senha atual")
@@ -159,13 +162,12 @@ class MeuPerfilPage:
             tk.messagebox.showerror("Nome do App", "A nova senha não pode ser igual à senha atual.")
         else:
             db = database()
-            result = db.validate_password(self.id_user_logged, current_password)[0]
-            if result is not None:
+            result = db.validate_password(self.id_user_logged, current_password)
+            if result[0] is not None:
                 db.update_password(self.id_user_logged, new_password)
                 tk.messagebox.showinfo("Nome do App", "Senha atualizada com sucesso.")
                 self.change_password_window.destroy()
-            else:
-                tk.messagebox.showerror("Nome do App", "Credenciais inválidas. Tente novamente.")
+            tk.messagebox.showerror("Nome do App", "Credenciais inválidas. Tente novamente.")
             db.connection.close()
 
     def follow_user(self, id_user):

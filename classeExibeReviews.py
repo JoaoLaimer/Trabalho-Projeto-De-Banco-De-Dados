@@ -2,12 +2,13 @@ import tkinter as tk
 from conexaoBD import database
 
 class ExibeReviewsPage:
-    def __init__(self,master,id_user):
+    def __init__(self,master,id_user, bool):
         self.master = master
+        self.id_user = id_user
+        self.bool = bool
         self.master.geometry("600x320")
         self.master.title("Review")
-        self.id_user = id_user
-
+        
         self.exibe_reviews(id_user)
 
     def exibe_reviews(self,id_user):
