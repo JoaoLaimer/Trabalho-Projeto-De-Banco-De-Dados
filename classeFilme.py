@@ -61,7 +61,7 @@ class FilmePage:
             for i in range(self.qntd_filmes[0]):
                 diretor_nome = db.return_diretor(filme_info[i][6])
                 estudio_nome = db.return_estudio(filme_info[i][7])
-                filme_info_label = tk.Label(master, text=f"Titulo: {filme_info[i][1]} \n Gênero: {filme_info[i][2]} \n Data de Lançamento: {filme_info[i][8]} \n Duração: {filme_info[i][3]} \n Classificação: {filme_info[i][4]} \n País de Produção: {filme_info[i][5]} \n Nome do Diretor: {diretor_nome[1]} \n Nome da Produtora: {estudio_nome[1]}")
+                filme_info_label = ctk.CTkLabel(master, text=f"Titulo: {filme_info[i][1]} \n Gênero: {filme_info[i][2]} \n Data de Lançamento: {filme_info[i][8]} \n Duração: {filme_info[i][3]} \n Classificação: {filme_info[i][4]} \n País de Produção: {filme_info[i][5]} \n Nome do Diretor: {diretor_nome[1]} \n Nome da Produtora: {estudio_nome[1]}")
                 filme_info_label.grid(row=i, column=0, padx=10, pady=10)
 
                 filme_adicionar_na_lista = ctk.CTkButton(master, text="Adicionar na Lista", command=lambda id_user= self.id_user_loggado: self.adicionar_na_lista(filme_info[i][0],id_user))
