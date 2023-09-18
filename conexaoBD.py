@@ -302,9 +302,12 @@ class database:
             self.connection.close()
         
         def insert_newAtor(self,nomeator,titulofilme):
-            consulta_sql = "INSERT INTO ator(nomeator) VALUES (%s)"
-            self.cursor.execute(consulta_sql, (nomeator,))
-            self.connection.commit()
+            try:
+                consulta_sql = "INSERT INTO ator(nomeator) VALUES (%s)"
+                self.cursor.execute(consulta_sql, (nomeator,))
+                self.connection.commit()
+            except:
+                self.connection.rollback()
 
             consulta_sql = "INSERT INTO atua(id_ator,id_filme) VALUES((SELECT id_ator FROM ator WHERE nomeator = %s),(SELECT id_filme FROM filme WHERE titulofilme = %s));"
             self.cursor.execute(consulta_sql, (nomeator,titulofilme,))

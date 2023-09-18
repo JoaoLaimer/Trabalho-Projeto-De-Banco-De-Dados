@@ -27,7 +27,9 @@ class FilmePage:
         else:
             self.qntd_filmes = db.qntd_filmes(self.id_type,self.id_any)
 
-        self.master.geometry("650x"+str(self.qntd_filmes[0]*150))
+        print(self.qntd_filmes[0])
+
+        self.master.geometry("700x"+str(self.qntd_filmes[0]*200))
 
         if id_type == "Diretor":
             filme_info = db.return_filme(self.id_type,self.id_any)
