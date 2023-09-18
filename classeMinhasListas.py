@@ -90,10 +90,10 @@ class MinhasListasPage:
         self.delete_movie_button = [None for _ in range(len(movies))]
         for i in range(len(movies)):
             movie_id = movies[i][0]
-            movie_title = db.get_movie_name(movie_id) 
-            movie_label = tk.Label(self.movie_window, text=movie_title, cursor="hand2")
-            movie_label.grid(row = i+1, column = 0, padx = 10, pady = 10)
-            movie_label.bind("<Button-1>", lambda event, movie_id=movie_id: self.show_movie_details(movie_id))
+            movie_title = db.get_movie_name(movie_id)
+            
+            movie_button = customtkinter.CTkButton(self.movie_window, text=movie_title, cursor="hand2", command=lambda movie_id=movie_id: self.show_movie_details(movie_id))
+            movie_button.grid(row=i+1, column=0, padx=10, pady=10)
             if bool:
                 self.delete_movie_button[i] = customtkinter.CTkButton(self.movie_window, text="X", command=lambda id_movie = movie_id, list_id = id_list, row = i: self.delete_movie(id_movie, list_id, row))
                 self.delete_movie_button[i].grid(row=i+1, column=1, padx=10, pady=10)
@@ -127,28 +127,13 @@ class MinhasListasPage:
         self.movie_details = db.return_filme("filme", id_filme)
         self.movie_details_window = tk.Toplevel(self.movie_window)
         self.movie_details_window.title("Detalhes do Filme")
+        
+        for i, filme_info in enumerate(self.movie_details):
+            diretor_nome = db.return_diretor(filme_info[6])
+            estudio_nome = db.return_estudio(filme_info[7])
 
-        labels_info = [
-            ("Titulo", 1),
-            ("Gênero", 2),
-            ("Duração", 3),
-            ("Classificação", 4),
-            ("País de Produção", 5),
-            ("Diretor", 6),
-            ("Produtora", 7),
-            ("Data de Lançamento", 8),
-            ("Descrição", 9)
-        ]
-
-        for i, (label_text, column) in enumerate(labels_info):
-            value = self.movie_details[0][column]
-            if column == 6:
-                value = db.return_diretor(value)[1]
-            elif column == 7:
-                value = db.return_estudio(value)[1]
-
-            label = tk.Label(self.movie_details_window, text=f"{label_text}: {value}")
-            label.grid(row=i, column=0, padx=10, pady=10)
+            filme_info_label = customtkinter.CTkLabel(self.movie_details_window, text=f"Titulo: {filme_info[1]} \n Gênero: {filme_info[2]} \n Data de Lançamento: {filme_info[8]} \n Duração: {filme_info[3]} \n Classificação: {filme_info[4]} \n País de Produção: {filme_info[5]} \n Nome do Diretor: {diretor_nome[1]} \n Nome da Produtora: {estudio_nome[1]}")
+            filme_info_label.grid(row=i, column=0, padx=10, pady=10)
         
         """movie_id = tk.Label(self.movie_details_window, text=f"Titulo: {self.movie_details[0][1]}")
         movie_id.grid(row=0, column=0, padx=10, pady=10)
