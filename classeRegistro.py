@@ -49,17 +49,17 @@ class RegistroPage:
         
 
     def efetuar_registro(self):
-        nomeuser = self.nomeuser_entry.get()
+        nomeuser = self.username_entry.get()
         emailuser = self.emailuser_entry.get()
         senhauser = self.senhauser_entry.get()
         telefoneuser = self.telefoneuser_entry.get()
         paisuser = self.paisuser_entry.get()
-        
+
         try:
             db = database()
             db.insert_newUser(nomeuser, emailuser, senhauser, telefoneuser, paisuser)
 
-            self.nomeuser_entry.delete(0, tk.END)
+            self.username_entry.delete(0, tk.END)
             self.emailuser_entry.delete(0, tk.END)
             self.senhauser_entry.delete(0, tk.END)
             self.telefoneuser_entry.delete(0, tk.END)
