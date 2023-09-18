@@ -25,7 +25,15 @@ class CriarListaPage:
     def create_new_list(self):
         db = database()
         list_name = self.list_name_entry.get()
-        db.create_new_list(self.id_user_logged, list_name)
-        messagebox.showinfo("Sucesso", "Lista criada com sucesso!")
-        self.app.destroy()
+        if self.validate_input(list_name):
+            db.create_new_list(self.id_user_logged, list_name)
+            self.app.destroy()
 
+    def validate_input(self, list_name):
+        list_name = self.list_name_entry.get()
+        if list_name == "":
+            messagebox.showerror("Erro", "Nome da lista não pode ser vazio! Tente novamente.")
+            return False
+        else:
+            messagebox.showinfo("Sucesso", f"Nome da lista: {list_name}")
+            return True
