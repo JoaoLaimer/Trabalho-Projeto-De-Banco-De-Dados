@@ -12,6 +12,7 @@ class database:
                 port="5432"
             )
             self.cursor = self.connection.cursor()
+            
         def insert_newUser(self,nomeuser, emailuser, senhauser, telefoneuser, paisuser):
             consulta_sql = "INSERT INTO usuario(nomeuser, emailuser, senhauser, telefoneuser, paisuser) VALUES (%s, %s, %s, %s, %s)"
             self.cursor.execute(consulta_sql, (nomeuser, emailuser, senhauser, telefoneuser, paisuser))
@@ -114,7 +115,6 @@ class database:
                 self.cursor.execute(consulta_sql, (id_any,id_any,id_any,))
                 return self.cursor.fetchone()
             
-
         def validate_password(self, id_user, password):
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s AND senhauser = %s"
             self.cursor.execute(consulta_sql, (id_user, password))
@@ -313,5 +313,11 @@ class database:
             self.cursor.execute(consulta_sql, (nomeator,titulofilme,))
             self.connection.commit()
             
+            self.connection.close()
+
+        def change_list_name(self, id_list, new_name):
+            consulta_sql = "UPDATE lista SET nomelista = %s WHERE id_lista = %s"
+            self.cursor.execute(consulta_sql, (new_name, id_list))
+            self.connection.commit()
             self.connection.close()
 

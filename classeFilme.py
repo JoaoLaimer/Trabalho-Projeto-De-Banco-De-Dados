@@ -15,8 +15,7 @@ class FilmePage:
         self.id_type = id_type
         print(id_any,id_type)
         self.id_user_loggado = top.user_id_logged
-        #self.id_user_loggado = 
-        
+
         self.id_filme = None
 
         self.master.title("Resultado da Busca")
@@ -26,9 +25,7 @@ class FilmePage:
             self.qntd_filmes = db.qntd_filmes(self.id_type,self.top.get_search_value())
         else:
             self.qntd_filmes = db.qntd_filmes(self.id_type,self.id_any)
-
-        print(self.qntd_filmes[0])
-
+            
         self.master.geometry("700x"+str(self.qntd_filmes[0]*200))
 
         if id_type == "Diretor":

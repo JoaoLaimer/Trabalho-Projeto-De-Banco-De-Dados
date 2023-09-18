@@ -39,23 +39,18 @@ class MinhasListasPage:
 
         for i in range(len(lists)):
             list_name = lists[i][1]
-            #list_id = lists[i][3]
             self.list_id = lists[i][3]
             list_label = [None for _ in range(len(lists))]
 
             if self.id_filme != None:
-                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.add_movie_to_list(self.id_filme,list_id))
+                list_label[i] = customtkinter.CTkButton(self.app, text=f"{list_name}", command=lambda list_id = self.list_id: self.add_movie_to_list(self.id_filme,list_id))
                 list_label[i].grid(row = i, column = 0, padx = 10, pady = 10) 
             else:
                 if self.bool:
-                    list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, True))
+                    list_label[i] = customtkinter.CTkButton(self.app, text=f"{list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, True))
                     list_label[i].grid(row = i + 2, column = 0, padx = 10, pady = 10)
-                    """self.remove_button = customtkinter.CTkButton(self.app, text="Remover", command=lambda list_id = self.list_id: self.remove_movie(list_id))
-                    self.remove_button.grid(row=i, column=1, padx=10, pady=10)
-                    self.delete_list_button = customtkinter.CTkButton(self.app, text="Apagar lista", command=lambda list_id = self.list_id: self.delete_list(list_id))
-                    self.delete_list_button.grid(row=i, column=2, padx=10, pady=10)"""
                 else:
-                    list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, False))
+                    list_label[i] = customtkinter.CTkButton(self.app, text=f"{list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, False))
                     list_label[i].grid(row = i + 2, column = 0, padx = 10, pady = 10)
                     if not db.check_like(self.list_id, self.id_user):
                         self.like_button[i] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = self.list_id, row = i: self.like_event(list_id,row))
@@ -69,14 +64,14 @@ class MinhasListasPage:
         db.like_list(id_list, self.id_user)
         self.like_button[pos].grid_remove()
         self.like_button[pos] = customtkinter.CTkButton(self.app, text="Descurtir", command=lambda list_id = id_list, row=pos: self.unlike_event(list_id,row))
-        self.like_button[pos].grid(row=pos, column=2, padx=10, pady=10)
+        self.like_button[pos].grid(row=pos + 2, column=2, padx=10, pady=10)
          
     def unlike_event(self, id_list,pos):
         db = database()
         db.unlike_list(id_list, self.id_user)
         self.like_button[pos].grid_remove()
         self.like_button[pos] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = id_list, row=pos: self.like_event(list_id,row))
-        self.like_button[pos].grid(row=pos, column=2, padx=10, pady=10)
+        self.like_button[pos].grid(row=pos + 2, column=2, padx=10, pady=10)
             
     def show_movies_in_list(self, id_list, bool):
         db = database()
@@ -84,9 +79,13 @@ class MinhasListasPage:
 
         self.movie_window = tk.Toplevel(self.app)
         self.movie_window.title("Filmes da Lista")
-
-        list_name = tk.Label(self.movie_window, text=f"lista: {db.get_list_name(id_list)[0]}")
-        list_name.grid(row=0, column=0, padx=10, pady=10)
+        if bool:
+            list_name = tk.Label(self.movie_window, text=f"lista: {db.get_list_name(id_list)[0]}", cursor="hand2")
+            list_name.bind("<Button-1>", lambda event, list_id=id_list: self.change_list_name(list_id))
+            list_name.grid(row=0, column=0, padx=10, pady=10)
+        else:
+            list_name = tk.Label(self.movie_window, text=f"lista: {db.get_list_name(id_list)[0]}")
+            list_name.grid(row=0, column=0, padx=10, pady=10)
         self.delete_movie_button = [None for _ in range(len(movies))]
         for i in range(len(movies)):
             movie_id = movies[i][0]
@@ -128,29 +127,42 @@ class MinhasListasPage:
         self.movie_details_window = tk.Toplevel(self.movie_window)
         self.movie_details_window.title("Detalhes do Filme")
         
-        for i, filme_info in enumerate(self.movie_details):
-            diretor_nome = db.return_diretor(filme_info[6])
-            estudio_nome = db.return_estudio(filme_info[7])
+        labels_info = [
+            ("Titulo", 1),
+            ("Gênero", 2),
+            ("Duração", 3),
+            ("Classificação", 4),
+            ("País de Produção", 5),
+            ("Diretor", 6),
+            ("Produtora", 7),
+            ("Data de Lançamento", 8),
+            ("Descrição", 9)
+        ]
 
-            filme_info_label = customtkinter.CTkLabel(self.movie_details_window, text=f"Titulo: {filme_info[1]} \n Gênero: {filme_info[2]} \n Data de Lançamento: {filme_info[8]} \n Duração: {filme_info[3]} \n Classificação: {filme_info[4]} \n País de Produção: {filme_info[5]} \n Nome do Diretor: {diretor_nome[1]} \n Nome da Produtora: {estudio_nome[1]}")
-            filme_info_label.grid(row=i, column=0, padx=10, pady=10)
+        for i, (label_text, column) in enumerate(labels_info):
+            value = self.movie_details[0][column]
+            if column == 6:
+                value = db.return_diretor(value)[1]
+            elif column == 7:
+                value = db.return_estudio(value)[1]
+
+            label = customtkinter.CTkLabel(self.movie_details_window, text=f"{label_text}: {value}")
+            label.grid(row=i, column=0, padx=10, pady=10)
+
+    def change_list_name(self, id_list):
+        self.change_list_name_window = tk.Toplevel(self.movie_window)
+        self.change_list_name_window.title("Mudar nome da lista")
+        list_name_label = customtkinter.CTkLabel(self.change_list_name_window, text="Digite o nome da lista:")
+        list_name_label.grid(row=0, column=0, padx=10, pady=10)
+
+        self.list_name_entry = tk.Entry(self.change_list_name_window, width=30)
+        self.list_name_entry.grid(row=1, column=0, padx=10, pady=10)
+
+        confirm_creation_list = customtkinter.CTkButton(self.change_list_name_window, text="Mudar nome", command= lambda: self.confirm_change(id_list, self.list_name_entry.get()))
+        confirm_creation_list.grid(row=1, column=1, padx=10, pady=10)
         
-        """movie_id = tk.Label(self.movie_details_window, text=f"Titulo: {self.movie_details[0][1]}")
-        movie_id.grid(row=0, column=0, padx=10, pady=10)
-        movie_title = tk.Label(self.movie_details_window, text=f"Gênero: {self.movie_details[0][2]}")
-        movie_title.grid(row=1, column=0, padx=10, pady=10)
-        movie_gen = tk.Label(self.movie_details_window, text=f"Duração: {self.movie_details[0][3]}")
-        movie_gen.grid(row=2, column=0, padx=10, pady=10)
-        movie_duration = tk.Label(self.movie_details_window, text=f"Classificação: {self.movie_details[0][4]}")
-        movie_duration.grid(row=3, column=0, padx=10, pady=10)
-        movie_classification = tk.Label(self.movie_details_window, text=f"País de Produção: {self.movie_details[0][5]}")
-        movie_classification.grid(row=4, column=0, padx=10, pady=10)
-        movie_country = tk.Label(self.movie_details_window, text=f"Diretor: {db.return_diretor(self.movie_details[0][6])[1]}")
-        movie_country.grid(row=5, column=0, padx=10, pady=10)
-        movie_id_director = tk.Label(self.movie_details_window, text=f"Produtora: {db.return_estudio(self.movie_details[0][7])[1]}")
-        movie_id_director.grid(row=6, column=0, padx=10, pady=10)
-        movie_id_studio = tk.Label(self.movie_details_window, text=f"Data de Lançamento: {self.movie_details[0][8]}")
-        movie_id_studio.grid(row=7, column=0, padx=10, pady=10)
-        movie_realease_data = tk.Label(self.movie_details_window, text=f"Descrição: {self.movie_details[0][9]}")
-        movie_realease_data.grid(row=8, column=0, padx=10, pady=10)"""
-
+    def confirm_change(self, id_list, new_list_name):
+        db = database()
+        db.change_list_name(id_list, new_list_name)
+        self.change_list_name_window.destroy()
+        
