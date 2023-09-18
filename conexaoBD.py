@@ -118,7 +118,11 @@ class database:
         def validate_password(self, id_user, password):
             consulta_sql = "SELECT * FROM usuario WHERE id_user = %s AND senhauser = %s"
             self.cursor.execute(consulta_sql, (id_user, password))
-            return self.cursor.fetchone()
+            result = self.cursor.fetchone()
+            if result is not None:
+                return result
+            else:
+                return (None,)
         
         def update_password(self, id_user, new_password):
             consulta_sql = "UPDATE usuario SET senhauser = %s WHERE id_user = %s"
