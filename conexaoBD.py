@@ -268,19 +268,19 @@ class database:
         
         def insert_newDiretor(self,nomediretor):
             consulta_sql = "INSERT INTO diretor(nomediretor) VALUES (%s)"
-            self.cursor.execute(consulta_sql, (nomediretor))
+            self.cursor.execute(consulta_sql, (nomediretor,))
             self.connection.commit()
             self.connection.close()
             
         def insert_newProdutora(self,nome_estudio):
             consulta_sql = "INSERT INTO estudio(nome_estudio) VALUES (%s)"
-            self.cursor.execute(consulta_sql, (nome_estudio))
+            self.cursor.execute(consulta_sql, (nome_estudio,))
             self.connection.commit()
             self.connection.close()
         
         def insert_newAtor(self,nomeator):
             consulta_sql = "INSERT INTO ator(nomeator) VALUES (%s)"
-            self.cursor.execute(consulta_sql, (nomeator))
+            self.cursor.execute(consulta_sql, (nomeator,))
             self.connection.commit()
             self.connection.close()
 
