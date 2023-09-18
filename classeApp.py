@@ -30,22 +30,22 @@ class App(customtkinter.CTk):
         
         # botao pra tela de login
         self.login_button = customtkinter.CTkButton(master, text="Login", command=self.abrir_pagina_login)
-        self.login_button.grid(row=0, column=0, padx=10, pady=10)
+        self.login_button.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
         
         self.signup_button = customtkinter.CTkButton(master, text="Sign Up", command=self.abrir_pagina_registro)
-        self.signup_button.grid(row=1, column=0, padx=10, pady=10)
+        self.signup_button.grid(row=1, column=0, padx=10, pady=10, columnspan=2)
         
         self.cadastro_filme_button = customtkinter.CTkButton(master, text="Cadastrar Filme", command=self.cadastrar_filme)
-        self.cadastro_filme_button.grid(row=2, column=0, padx=10, pady=10)
+        self.cadastro_filme_button.grid(row=2, column=0, padx=10, pady=10, columnspan=2)
         
         self.cadastro_diretor_button = customtkinter.CTkButton(master, text="Cadastrar Diretor", command=self.cadastrar_diretor)
-        self.cadastro_diretor_button.grid(row=3, column=0, padx=10, pady=10)
+        self.cadastro_diretor_button.grid(row=3, column=0, padx=10, pady=10, columnspan=2)
         
         self.cadastro_ator_button = customtkinter.CTkButton(master, text="Cadastrar Ator", command=self.cadastrar_ator)
-        self.cadastro_ator_button.grid(row=4, column=0, padx=10, pady=10)
+        self.cadastro_ator_button.grid(row=4, column=0, padx=10, pady=10, columnspan=2)
         
         self.cadastro_produtora_button = customtkinter.CTkButton(master, text="Cadastrar Produtora", command=self.cadastrar_produtora)
-        self.cadastro_produtora_button.grid(row=5, column=0, padx=10, pady=10)
+        self.cadastro_produtora_button.grid(row=5, column=0, padx=10, pady=10, columnspan=2)
 
 
         self.user_id_loggado = None
@@ -77,19 +77,19 @@ class App(customtkinter.CTk):
         self.grid_rowconfigure((0, 1, 2), weight=1)
         
         self.perfil_button = customtkinter.CTkButton(self.master, text="Perfil", command=lambda :self.abrir_pagina_perfil(self.user_id_loggado))
-        self.perfil_button.grid(row=2, column=0, padx=20, pady=10)
+        self.perfil_button.grid(row=2, column=0, padx=20, pady=10, columnspan=2)
 
         self.busca_button = customtkinter.CTkButton(self.master, text="Busca", command=self.abrir_pagina_busca)
-        self.busca_button.grid(row=3, column=0, padx=20, pady=10)
+        self.busca_button.grid(row=3, column=0, padx=20, pady=10, columnspan=2)
 
         self.minha_lista_button = customtkinter.CTkButton(self.master, text="Minhas Listas", command=lambda :self.exibir_lista_filmes(self.user_id_loggado, True))
-        self.minha_lista_button.grid(row=4, column=0, padx=20, pady=10)
+        self.minha_lista_button.grid(row=4, column=0, padx=20, pady=10, columnspan=2)
 
         self.cria_lista_button = customtkinter.CTkButton(self.master, text="Criar Lista", command=self.abrir_pagina_criar_lista)
-        self.cria_lista_button.grid(row=5, column=0, padx=10, pady=10)
+        self.cria_lista_button.grid(row=5, column=0, padx=10, pady=10, columnspan=2)
 
         self.mostra_reviews_button = customtkinter.CTkButton(self.master, text="Mostrar Reviews", command=lambda :self.mostrar_reviews(self.user_id_loggado, True)) 
-        self.mostra_reviews_button.grid(row=6, column=0, padx=10, pady=10)
+        self.mostra_reviews_button.grid(row=6, column=0, padx=10, pady=10, columnspan=2)
 
     def abrir_pagina_perfil(self,user_id):
         self.master.geometry("320x400")

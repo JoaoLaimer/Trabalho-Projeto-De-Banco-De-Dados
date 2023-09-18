@@ -7,7 +7,7 @@ from ttkthemes import ThemedTk
 class ReviewPage:
     def __init__(self, master,id_filme, id_user):
         self.master = master
-        self.master.geometry("600x320")
+        self.master.geometry("320x500")
         self.master.title("Review")
         self.id_filme = id_filme
         self.id_user = id_user
@@ -15,9 +15,6 @@ class ReviewPage:
         self.label_nota = ctk.CTkLabel(self.master, text="Nota:")
         self.label_nota.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
 
-        # Escala de notas com o estilo ttk
-        #self.style = ttk.Style()
-        #self.style.configure("TScale.Horizontal.TScale", troughcolor="green", sliderlength=20, sliderthickness=15)
         self.scale_nota = ttk.Scale(self.master, from_=0, to=5, orient=tk.HORIZONTAL, style="TScale.Horizontal.TScale")
         self.scale_nota.grid(row=1, column=0, padx=10, pady=10, columnspan=2)
 

@@ -132,7 +132,7 @@ class MeuPerfilPage:
                 self.user_follow.grid(row=6, column=1, padx=10, pady=10)
 
             user_reviews = customtkinter.CTkButton(self.app, text="Reviews", command=lambda: self.master.mostrar_reviews(id_user, False))
-            user_reviews.grid(row=7, column=0, padx=10, pady=10)
+            user_reviews.grid(row=7, column=0, padx=10, pady=10, columnspan=2)
                 
 
     def change_password(self):

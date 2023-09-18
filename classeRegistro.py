@@ -30,7 +30,7 @@ class RegistroPage:
 
         senhauser_label = customtkinter.CTkLabel(master, text="Senha de Usuário")
         senhauser_label.pack()
-        self.senhauser_entry = customtkinter.CTkEntry(master, width=100)
+        self.senhauser_entry = customtkinter.CTkEntry(master, width=100, show="*")
         self.senhauser_entry.pack()
 
         telefoneuser_label = customtkinter.CTkLabel(master, text="Telefone do Usuário")
