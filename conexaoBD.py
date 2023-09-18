@@ -8,7 +8,7 @@ class database:
                 dbname="trabalhoPDB",
                 user="postgres",
                 password="271202",
-                host="26.29.242.113",
+                host="localhost",
                 port="5432"
             )
             self.cursor = self.connection.cursor()
