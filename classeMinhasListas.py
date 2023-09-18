@@ -43,14 +43,14 @@ class MinhasListasPage:
             list_label = [None for _ in range(len(lists))]
 
             if self.id_filme != None:
-                list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.add_movie_to_list(self.id_filme,list_id))
+                list_label[i] = customtkinter.CTkButton(self.app, text=f"{list_name}", command=lambda list_id = self.list_id: self.add_movie_to_list(self.id_filme,list_id))
                 list_label[i].grid(row = i, column = 0, padx = 10, pady = 10) 
             else:
                 if self.bool:
-                    list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, True))
+                    list_label[i] = customtkinter.CTkButton(self.app, text=f"{list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, True))
                     list_label[i].grid(row = i + 2, column = 0, padx = 10, pady = 10)
                 else:
-                    list_label[i] = customtkinter.CTkButton(self.app, text=f"Nome: {list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, False))
+                    list_label[i] = customtkinter.CTkButton(self.app, text=f"{list_name}", command=lambda list_id = self.list_id: self.show_movies_in_list(list_id, False))
                     list_label[i].grid(row = i + 2, column = 0, padx = 10, pady = 10)
                     if not db.check_like(self.list_id, self.id_user):
                         self.like_button[i] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = self.list_id, row = i: self.like_event(list_id,row))
@@ -64,14 +64,14 @@ class MinhasListasPage:
         db.like_list(id_list, self.id_user)
         self.like_button[pos].grid_remove()
         self.like_button[pos] = customtkinter.CTkButton(self.app, text="Descurtir", command=lambda list_id = id_list, row=pos: self.unlike_event(list_id,row))
-        self.like_button[pos].grid(row=pos, column=2, padx=10, pady=10)
+        self.like_button[pos].grid(row=pos + 2, column=2, padx=10, pady=10)
          
     def unlike_event(self, id_list,pos):
         db = database()
         db.unlike_list(id_list, self.id_user)
         self.like_button[pos].grid_remove()
         self.like_button[pos] = customtkinter.CTkButton(self.app, text="Curtir", command=lambda list_id = id_list, row=pos: self.like_event(list_id,row))
-        self.like_button[pos].grid(row=pos, column=2, padx=10, pady=10)
+        self.like_button[pos].grid(row=pos + 2, column=2, padx=10, pady=10)
             
     def show_movies_in_list(self, id_list, bool):
         db = database()
@@ -127,10 +127,6 @@ class MinhasListasPage:
         self.movie_details_window = tk.Toplevel(self.movie_window)
         self.movie_details_window.title("Detalhes do Filme")
         
-        for i, filme_info in enumerate(self.movie_details):
-            diretor_nome = db.return_diretor(filme_info[6])
-            estudio_nome = db.return_estudio(filme_info[7])
-
         labels_info = [
             ("Titulo", 1),
             ("Gênero", 2),
@@ -150,10 +146,8 @@ class MinhasListasPage:
             elif column == 7:
                 value = db.return_estudio(value)[1]
 
-            label = tk.Label(self.movie_details_window, text=f"{label_text}: {value}")
+            label = customtkinter.CTkLabel(self.movie_details_window, text=f"{label_text}: {value}")
             label.grid(row=i, column=0, padx=10, pady=10)
-            filme_info_label = customtkinter.CTkLabel(self.movie_details_window, text=f"Titulo: {filme_info[1]} \n Gênero: {filme_info[2]} \n Data de Lançamento: {filme_info[8]} \n Duração: {filme_info[3]} \n Classificação: {filme_info[4]} \n País de Produção: {filme_info[5]} \n Nome do Diretor: {diretor_nome[1]} \n Nome da Produtora: {estudio_nome[1]}")
-            filme_info_label.grid(row=i, column=0, padx=10, pady=10)
 
     def change_list_name(self, id_list):
         self.change_list_name_window = tk.Toplevel(self.movie_window)
@@ -167,7 +161,6 @@ class MinhasListasPage:
         confirm_creation_list = customtkinter.CTkButton(self.change_list_name_window, text="Mudar nome", command= lambda: self.confirm_change(id_list, self.list_name_entry.get()))
         confirm_creation_list.grid(row=1, column=1, padx=10, pady=10)
         
-
     def confirm_change(self, id_list, new_list_name):
         db = database()
         db.change_list_name(id_list, new_list_name)

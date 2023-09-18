@@ -12,6 +12,7 @@ class database:
                 port="5432"
             )
             self.cursor = self.connection.cursor()
+            
         def insert_newUser(self,nomeuser, emailuser, senhauser, telefoneuser, paisuser):
             consulta_sql = "INSERT INTO usuario(nomeuser, emailuser, senhauser, telefoneuser, paisuser) VALUES (%s, %s, %s, %s, %s)"
             self.cursor.execute(consulta_sql, (nomeuser, emailuser, senhauser, telefoneuser, paisuser))
