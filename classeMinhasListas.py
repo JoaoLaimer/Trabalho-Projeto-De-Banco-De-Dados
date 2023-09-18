@@ -91,7 +91,9 @@ class MinhasListasPage:
             movie_id = movies[i][0]
             movie_title = db.get_movie_name(movie_id)
             
-            movie_button = customtkinter.CTkButton(self.movie_window, text=movie_title, cursor="hand2", command=lambda movie_id=movie_id: self.show_movie_details(movie_id))
+            print(movie_title)
+
+            movie_button = customtkinter.CTkButton(self.movie_window, text=f"{movie_title[0]}", cursor="hand2", command=lambda movie_id=movie_id: self.show_movie_details(movie_id))
             movie_button.grid(row=i+1, column=0, padx=10, pady=10)
             if bool:
                 self.delete_movie_button[i] = customtkinter.CTkButton(self.movie_window, text="X", command=lambda id_movie = movie_id, list_id = id_list, row = i: self.delete_movie(id_movie, list_id, row))
