@@ -8,7 +8,7 @@ from conexaoBD import database
 class CadastroAtorWindow(tk.Toplevel):
     def __init__(self, master):
         self.master = master
-        self.master.title("Cadastro de Atorr")
+        self.master.title("Cadastro de Ator")
         
         self.ator_entry = ctk.CTkEntry(master)
         ator_label = ctk.CTkLabel(master, text="Nome do Ator")

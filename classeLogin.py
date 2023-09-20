@@ -11,7 +11,7 @@ class LoginPage:
         self.master = master
         self.app = app
         self.master.geometry("320x400")
-        self.master.title("Nome do App")
+        self.master.title("MovieHub")
         self.logged_in = False
 
         # login
