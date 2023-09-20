@@ -1,3 +1,4 @@
+-- Retorna o título do filme, o nome do usuário e a maior nota atribuída a cada filme
 SELECT filme.titulofilme, usuario.nomeuser, max_review.nota AS maior_nota
 FROM filme
 JOIN (
